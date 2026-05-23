@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCart, lineTotalCents } from "@/lib/cartStore";
 import { formatMoney } from "@/lib/menu";
+import { ClosedBanner } from "@/components/ClosedBanner";
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -33,6 +34,7 @@ export default function CartPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
+      <ClosedBanner />
       <h1 className="display text-3xl text-espresso mb-6">Your cart</h1>
       <ul className="divide-y divide-espresso/10 border border-espresso/10 rounded-2xl bg-cream-2/30">
         {lines.map((l) => (

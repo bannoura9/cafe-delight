@@ -4,6 +4,7 @@ import { getOrder } from "@/lib/orders";
 import { formatMoney } from "@/lib/menu";
 import { config } from "@/lib/config";
 import { OrderStatusPoll } from "./OrderStatusPoll";
+import { ClearCartOnMount } from "@/components/ClearCartOnMount";
 
 export default async function OrderPage({
   params,
@@ -16,6 +17,7 @@ export default async function OrderPage({
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
+      <ClearCartOnMount />
       <div className="rounded-2xl bg-cream-2/50 border border-espresso/10 p-6">
         <div className="text-sm uppercase tracking-wider text-crema-2">
           Order #{order.id}

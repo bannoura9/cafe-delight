@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { useCart } from "@/lib/cartStore";
 import { formatMoney } from "@/lib/menu";
+import { ClosedBanner } from "@/components/ClosedBanner";
 import { placeOrder, type CheckoutState } from "./actions";
 
 const TAX_RATE = 0.0775;
@@ -14,7 +15,6 @@ export default function CheckoutPage() {
 
   const lines = useCart((s) => s.lines);
   const subtotal = useCart((s) => s.subtotalCents());
-  const clear = useCart((s) => s.clear);
 
   const [tipPct, setTipPct] = useState<number>(15);
 
@@ -22,13 +22,6 @@ export default function CheckoutPage() {
     placeOrder,
     {},
   );
-
-  // On unmount (after the action redirects to Clover), clear the cart.
-  useEffect(() => {
-    return () => {
-      if (state && !state.error) clear();
-    };
-  }, [state, clear]);
 
   if (!mounted) return null;
 
@@ -46,6 +39,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
+      <ClosedBanner />
       <h1 className="display text-3xl text-espresso mb-6">Checkout</h1>
 
       <form action={formAction} className="space-y-6">

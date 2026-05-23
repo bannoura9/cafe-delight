@@ -1,9 +1,11 @@
 import { MENU, CATEGORIES } from "@/lib/menu";
 import { MenuItemCard } from "@/components/MenuItemCard";
+import { ClosedBanner } from "@/components/ClosedBanner";
 
 export default function MenuPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
+      <ClosedBanner />
       <h1 className="display text-4xl text-espresso mb-2">Menu</h1>
       <p className="text-espresso/70 mb-8">
         Tap a drink to customize and add to your order.
