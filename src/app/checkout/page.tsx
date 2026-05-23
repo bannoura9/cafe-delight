@@ -75,6 +75,14 @@ export default function CheckoutPage() {
             autoComplete="tel"
             className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
           />
+          <input
+            name="email"
+            placeholder="Email (optional — for receipt)"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
+          />
         </fieldset>
 
         <fieldset>
@@ -112,6 +120,23 @@ export default function CheckoutPage() {
             Card payment is handled by Clover on a secure hosted page. We never see
             your card number. You&apos;ll be redirected back here when payment completes.
           </span>
+        </div>
+
+        <div className="text-xs text-espresso/60 px-1">
+          By placing this order you agree to our{" "}
+          <a href="/legal/terms" className="underline underline-offset-2 hover:text-crema-2">
+            Terms
+          </a>{" "}
+          and{" "}
+          <a href="/legal/privacy" className="underline underline-offset-2 hover:text-crema-2">
+            Privacy Policy
+          </a>
+          , and consent to a single SMS to your mobile number when your order is
+          ready (
+          <a href="/legal/sms" className="underline underline-offset-2 hover:text-crema-2">
+            SMS terms
+          </a>
+          ). Reply STOP to opt out.
         </div>
 
         {state?.error ? (

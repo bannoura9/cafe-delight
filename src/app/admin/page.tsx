@@ -1,36 +1,28 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { config } from "@/lib/config";
+import { currentUser } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 import { listOrders } from "@/lib/orders";
 import { getSmsLog } from "@/lib/sms";
 import { formatMoney } from "@/lib/menu";
 import { MarkReadyButton } from "./MarkReadyButton";
-import { LoginForm } from "./LoginForm";
-
-async function authed(): Promise<boolean> {
-  const c = await cookies();
-  return c.get("admin_auth")?.value === config.adminPassword;
-}
 
 export default async function AdminPage() {
-  if (!(await authed())) return <LoginForm />;
-
+  const user = await currentUser();
   const [orders, sms] = await Promise.all([listOrders(), getSmsLog(8)]);
 
-  async function logout() {
-    "use server";
-    const c = await cookies();
-    c.delete("admin_auth");
-    redirect("/admin");
-  }
+  const displayName =
+    user?.firstName ??
+    user?.username ??
+    user?.emailAddresses[0]?.emailAddress ??
+    "Staff";
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="display text-3xl text-espresso">Staff dashboard</h1>
-        <form action={logout}>
-          <button className="text-sm underline underline-offset-4">Log out</button>
-        </form>
+        <div>
+          <h1 className="display text-3xl text-espresso">Staff dashboard</h1>
+          <div className="text-sm text-espresso/60">Signed in as {displayName}</div>
+        </div>
+        <UserButton />
       </div>
 
       <section className="mb-10">
@@ -70,7 +62,7 @@ export default async function AdminPage() {
                   <div className="tabular-nums font-medium">
                     {formatMoney(o.totalCents)}
                   </div>
-                  {o.status !== "ready" && o.status !== "completed" ? (
+                  {o.status !== "ready" && o.status !== "completed" && o.status !== "cancelled" ? (
                     <MarkReadyButton id={o.id} />
                   ) : null}
                 </div>
@@ -111,7 +103,11 @@ function StatusPill({ status }: { status: string }) {
       ? "bg-leaf/15 text-leaf"
       : status === "completed"
         ? "bg-espresso/10 text-espresso/70"
-        : "bg-crema/20 text-crema-2";
+        : status === "pending_payment"
+          ? "bg-amber-100 text-amber-800"
+          : status === "cancelled"
+            ? "bg-red-100 text-red-700"
+            : "bg-crema/20 text-crema-2";
   return (
     <span className={`text-xs px-2 py-0.5 rounded-full ${styles}`}>
       {status}

@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyCloverPayment } from "@/lib/clover";
-import { getOrder, markOrderPaid } from "@/lib/orders";
+import { getOrder, markOrderPaid, markEmailSent } from "@/lib/orders";
+import { sendOrderReceipt } from "@/lib/email";
 import { config } from "@/lib/config";
+
+async function sendReceiptIfEmail(orderId: string): Promise<void> {
+  const fresh = await getOrder(orderId);
+  if (!fresh || !fresh.customerEmail) return;
+  const res = await sendOrderReceipt(fresh);
+  if (res.ok) {
+    await markEmailSent(orderId);
+  } else {
+    console.error("[success] email receipt failed", res.error);
+  }
+}
 
 /**
  * Clover redirects here after a successful hosted-checkout payment.
@@ -50,34 +62,31 @@ export async function GET(
   if (config.mockMode) {
     const fakeId = cloverOrderId ?? `mock_${Date.now()}`;
     await markOrderPaid(id, fakeId, `mock_pmt_${Date.now()}`);
+    await sendReceiptIfEmail(id);
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }
 
   if (!cloverOrderId) {
     console.error("[success] no cloverOrderId in callback", { allParams });
-    // No order ID to verify. We'll trust the callback (since Clover only redirects
-    // to success URL after they consider it successful) and mark paid with whatever
-    // we got. Sessions can be cross-referenced manually in Clover dashboard.
     await markOrderPaid(id, checkoutSessionId ?? "unknown", checkoutSessionId ?? "unknown");
+    await sendReceiptIfEmail(id);
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }
 
   try {
     const verified = await verifyCloverPayment(cloverOrderId);
-    console.log("[success] Clover verify result", verified);
     if (!verified.paid) {
       return NextResponse.redirect(
         new URL(`/order/${id}/failed?reason=not_paid`, req.url),
       );
     }
     await markOrderPaid(id, cloverOrderId, verified.paymentId ?? "");
+    await sendReceiptIfEmail(id);
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   } catch (e) {
     console.error("[success] verify threw", e);
-    // Verification failed but Clover sent us back to the success URL,
-    // which means Clover thinks the payment succeeded. Mark paid and
-    // trust the callback. We can audit in Clover dashboard.
     await markOrderPaid(id, cloverOrderId, "verify_failed");
+    await sendReceiptIfEmail(id);
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }
 }

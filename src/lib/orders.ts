@@ -23,6 +23,7 @@ export type Order = {
   cloverOrderId: string | null;
   customerName: string;
   customerPhone: string;
+  customerEmail: string | null;
   items: OrderItem[];
   subtotalCents: number;
   taxCents: number;
@@ -39,6 +40,7 @@ type OrderRow = {
   clover_order_id: string | null;
   customer_name: string;
   customer_phone: string;
+  customer_email: string | null;
   subtotal_cents: number;
   tax_cents: number;
   tip_cents: number;
@@ -66,6 +68,7 @@ function rowToOrder(row: OrderRow, items: OrderItem[]): Order {
     cloverOrderId: row.clover_order_id,
     customerName: row.customer_name,
     customerPhone: row.customer_phone,
+    customerEmail: row.customer_email,
     items,
     subtotalCents: Number(row.subtotal_cents),
     taxCents: Number(row.tax_cents),
@@ -89,11 +92,11 @@ export async function createOrder(
 
   await sql`
     INSERT INTO orders (
-      id, clover_order_id, customer_name, customer_phone,
+      id, clover_order_id, customer_name, customer_phone, customer_email,
       subtotal_cents, tax_cents, tip_cents, total_cents,
       status, created_at
     ) VALUES (
-      ${id}, ${input.cloverOrderId}, ${input.customerName}, ${input.customerPhone},
+      ${id}, ${input.cloverOrderId}, ${input.customerName}, ${input.customerPhone}, ${input.customerEmail},
       ${input.subtotalCents}, ${input.taxCents}, ${input.tipCents}, ${input.totalCents},
       'pending_payment', ${createdAt}
     )
@@ -117,6 +120,7 @@ export async function createOrder(
     cloverOrderId: input.cloverOrderId,
     customerName: input.customerName,
     customerPhone: input.customerPhone,
+    customerEmail: input.customerEmail,
     items: input.items,
     subtotalCents: input.subtotalCents,
     taxCents: input.taxCents,
@@ -127,6 +131,10 @@ export async function createOrder(
     readyAt: null,
     notifiedAt: null,
   };
+}
+
+export async function markEmailSent(id: string): Promise<void> {
+  await sql`UPDATE orders SET email_sent_at = ${Date.now()} WHERE id = ${id}`;
 }
 
 export async function markOrderPaid(

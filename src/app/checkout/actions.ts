@@ -5,8 +5,9 @@ import { redirect } from "next/navigation";
 import { createHostedCheckout } from "@/lib/clover";
 import { createOrder, type OrderItem } from "@/lib/orders";
 import { isOpenNow } from "@/lib/hours";
+import { config } from "@/lib/config";
 
-const TAX_RATE = 0.0775;
+const TAX_RATE = config.taxRate;
 
 type SubmittedLine = {
   menuItemId: string;
@@ -32,27 +33,23 @@ export async function placeOrder(
   _prev: CheckoutState,
   formData: FormData,
 ): Promise<CheckoutState> {
-  console.log("[checkout] placeOrder invoked", {
-    mockMode: process.env.MOCK_MODE,
-    hasCloverToken: !!process.env.CLOVER_API_TOKEN,
-    cloverEnv: process.env.CLOVER_ENVIRONMENT,
-    merchantId: process.env.CLOVER_MERCHANT_ID,
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
-  });
-
   if (!isOpenNow()) {
-    console.log("[checkout] closed, rejecting");
     return { error: "We're closed right now. Come back during open hours." };
   }
 
   const customerName = String(formData.get("name") ?? "").trim();
   const customerPhone = String(formData.get("phone") ?? "").trim();
+  const customerEmailRaw = String(formData.get("email") ?? "").trim();
+  const customerEmail = customerEmailRaw.length > 0 ? customerEmailRaw : null;
   const tipPct = Number(formData.get("tipPct") ?? 0);
   const linesRaw = String(formData.get("lines") ?? "[]");
 
   if (!customerName) return { error: "Please enter your name." };
   if (!/^\+?\d[\d\s\-().]{8,}$/.test(customerPhone)) {
     return { error: "Please enter a valid mobile number." };
+  }
+  if (customerEmail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(customerEmail)) {
+    return { error: "Please enter a valid email address (or leave it blank)." };
   }
 
   let parsed: SubmittedLine[];
@@ -82,29 +79,25 @@ export async function placeOrder(
   const tipCents = Math.round(subtotalCents * (tipPct / 100));
   const totalCents = subtotalCents + taxCents + tipCents;
 
-  // Create our internal order first so we have an ID to put in the redirect URL.
-  console.log("[checkout] creating order in DB");
   let order;
   try {
     order = await createOrder({
       cloverOrderId: null,
       customerName,
       customerPhone,
+      customerEmail,
       items,
       subtotalCents,
       taxCents,
       tipCents,
       totalCents,
     });
-    console.log("[checkout] order created", { id: order.id, totalCents });
   } catch (e) {
-    console.error("[checkout] createOrder FAILED", e);
+    console.error("[checkout] createOrder failed", e);
     return { error: e instanceof Error ? `DB: ${e.message}` : "DB error" };
   }
 
-  // Hand off to Clover hosted checkout.
   const origin = await siteOrigin();
-  console.log("[checkout] calling Clover hosted checkout", { origin, ourOrderId: order.id });
   let checkout;
   try {
     checkout = await createHostedCheckout({
@@ -117,14 +110,12 @@ export async function placeOrder(
       successUrl: `${origin}/order/${order.id}/success`,
       cancelUrl: `${origin}/cart`,
     });
-    console.log("[checkout] Clover returned", { href: checkout.href, sessionId: checkout.checkoutSessionId });
   } catch (e) {
-    console.error("[checkout] createHostedCheckout FAILED", e);
+    console.error("[checkout] createHostedCheckout failed", e);
     return {
       error: e instanceof Error ? e.message : "Payment setup failed.",
     };
   }
 
-  console.log("[checkout] redirecting to Clover");
   redirect(checkout.href);
 }

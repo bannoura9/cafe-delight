@@ -47,3 +47,5 @@ ALTER TABLE orders ADD CONSTRAINT orders_status_check CHECK (status IN ('pending
 ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending_payment';
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS clover_payment_id TEXT;
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS paid_at BIGINT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS customer_email TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS email_sent_at BIGINT;

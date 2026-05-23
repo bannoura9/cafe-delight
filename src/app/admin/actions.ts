@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 import { config } from "@/lib/config";
 import { getOrder, setOrderStatus, markNotified } from "@/lib/orders";
 import { sendSms } from "@/lib/sms";
@@ -8,10 +8,9 @@ import { sendSms } from "@/lib/sms";
 export async function markReady(
   id: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  const c = await cookies();
-  if (c.get("admin_auth")?.value !== config.adminPassword) {
-    return { ok: false, error: "Unauthorized" };
-  }
+  const { userId } = await auth();
+  if (!userId) return { ok: false, error: "Unauthorized" };
+
   const order = await getOrder(id);
   if (!order) return { ok: false, error: "Order not found" };
 
