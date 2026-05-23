@@ -1,12 +1,14 @@
 type Window = { open: number; close: number };
+
+// Day index: 0=Sun, 1=Mon ... 6=Sat
 const HOURS: Record<number, Window | null> = {
-  0: { open: 7, close: 14 },
-  1: { open: 6, close: 18 },
-  2: { open: 6, close: 18 },
-  3: { open: 6, close: 18 },
-  4: { open: 6, close: 18 },
-  5: { open: 6, close: 19 },
-  6: { open: 7, close: 19 },
+  0: null,
+  1: { open: 7, close: 15 },
+  2: { open: 7, close: 15 },
+  3: { open: 7, close: 15 },
+  4: { open: 7, close: 15 },
+  5: { open: 7, close: 15 },
+  6: null,
 };
 
 export function isOpenNow(now: Date = new Date()): boolean {
@@ -17,5 +19,5 @@ export function isOpenNow(now: Date = new Date()): boolean {
 }
 
 export function hoursLabel(): string {
-  return "Mon–Fri 6a–6p · Sat 7a–7p · Sun 7a–2p";
+  return "Mon–Fri 7 AM – 3 PM · Sat & Sun closed";
 }

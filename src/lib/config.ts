@@ -1,6 +1,6 @@
 export const config = {
   mockMode: process.env.MOCK_MODE !== "false",
-  businessName: process.env.BUSINESS_NAME ?? "Cafe Delight",
+  businessName: process.env.BUSINESS_NAME ?? "Café Delight",
   businessAddress:
     process.env.BUSINESS_ADDRESS ?? "9395 Crown Crest Blvd, Parker, CO 80138",
   businessPhone: process.env.BUSINESS_PHONE ?? "",

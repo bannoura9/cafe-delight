@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #faf6ef;
-  --color-cream-2: #f3ebdc;
-  --color-espresso: #2a1a10;
-  --color-espresso-2: #4a2f1f;
-  --color-crema: #c8956d;
-  --color-crema-2: #a06b3d;
+  --color-cream: #fbf7ee;
+  --color-cream-2: #f3e9d4;
+  --color-espresso: #4a2912;
+  --color-espresso-2: #6b3a1c;
+  --color-crema: #f5a93b;
+  --color-crema-2: #e88a16;
   --color-leaf: #5a7a4f;
 
   --font-display: ui-serif, Georgia, "Times New Roman", serif;
