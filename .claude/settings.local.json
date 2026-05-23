@@ -92,7 +92,11 @@
       "Bash(vercel ls *)",
       "Bash(git commit *)",
       "Bash(curl -s https://cafedelightco.com/checkout)",
-      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hide '\\\\''View cart'\\\\'' hero button when cart is empty *)"
+      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hide '\\\\''View cart'\\\\'' hero button when cart is empty *)",
+      "Bash(vercel logs *)",
+      "Bash(vercel env *)",
+      "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Add temporary debug logging to checkout action\")",
+      "Bash(curl -sf -o /dev/null https://cafedelightco.com/menu)"
     ]
   }
 }

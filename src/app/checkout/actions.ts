@@ -32,7 +32,16 @@ export async function placeOrder(
   _prev: CheckoutState,
   formData: FormData,
 ): Promise<CheckoutState> {
+  console.log("[checkout] placeOrder invoked", {
+    mockMode: process.env.MOCK_MODE,
+    hasCloverToken: !!process.env.CLOVER_API_TOKEN,
+    cloverEnv: process.env.CLOVER_ENVIRONMENT,
+    merchantId: process.env.CLOVER_MERCHANT_ID,
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
+  });
+
   if (!isOpenNow()) {
+    console.log("[checkout] closed, rejecting");
     return { error: "We're closed right now. Come back during open hours." };
   }
 
@@ -74,19 +83,28 @@ export async function placeOrder(
   const totalCents = subtotalCents + taxCents + tipCents;
 
   // Create our internal order first so we have an ID to put in the redirect URL.
-  const order = await createOrder({
-    cloverOrderId: null,
-    customerName,
-    customerPhone,
-    items,
-    subtotalCents,
-    taxCents,
-    tipCents,
-    totalCents,
-  });
+  console.log("[checkout] creating order in DB");
+  let order;
+  try {
+    order = await createOrder({
+      cloverOrderId: null,
+      customerName,
+      customerPhone,
+      items,
+      subtotalCents,
+      taxCents,
+      tipCents,
+      totalCents,
+    });
+    console.log("[checkout] order created", { id: order.id, totalCents });
+  } catch (e) {
+    console.error("[checkout] createOrder FAILED", e);
+    return { error: e instanceof Error ? `DB: ${e.message}` : "DB error" };
+  }
 
   // Hand off to Clover hosted checkout.
   const origin = await siteOrigin();
+  console.log("[checkout] calling Clover hosted checkout", { origin, ourOrderId: order.id });
   let checkout;
   try {
     checkout = await createHostedCheckout({
@@ -99,11 +117,14 @@ export async function placeOrder(
       successUrl: `${origin}/order/${order.id}/success`,
       cancelUrl: `${origin}/cart`,
     });
+    console.log("[checkout] Clover returned", { href: checkout.href, sessionId: checkout.checkoutSessionId });
   } catch (e) {
+    console.error("[checkout] createHostedCheckout FAILED", e);
     return {
       error: e instanceof Error ? e.message : "Payment setup failed.",
     };
   }
 
+  console.log("[checkout] redirecting to Clover");
   redirect(checkout.href);
 }
