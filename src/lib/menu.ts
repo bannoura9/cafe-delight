@@ -26,7 +26,11 @@ export type MenuItem = {
   category: Category;
   sizes: Size[];
   modifiers?: Modifier[];
+  image?: string;
 };
+
+const u = (id: string) =>
+  `https://images.unsplash.com/${id}?w=600&q=80&auto=format&fit=crop`;
 
 const MILK_OPTIONS: Modifier[] = [
   { id: "milk-oat", name: "Oat milk", priceCents: 50 },
@@ -65,6 +69,7 @@ export const MENU: MenuItem[] = [
   // ── Espresso ──
   {
     id: "espresso-shot",
+    image: u("photo-1521305916504-4a1121188589"),
     name: "Espresso Shot",
     category: "Espresso",
     sizes: sizesSL(200, 300),
@@ -72,6 +77,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "americano",
+    image: u("photo-1485808191679-5f86510681a2"),
     name: "Americano",
     category: "Espresso",
     sizes: sizesSL(350, 400),
@@ -79,6 +85,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "cortado",
+    image: u("photo-1572442388796-11668a67e53d"),
     name: "Cortado",
     category: "Espresso",
     sizes: sizeOne(350),
@@ -86,6 +93,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "latte",
+    image: u("photo-1561882468-9110e03e0f78"),
     name: "Latte",
     category: "Espresso",
     sizes: sizesSL(450, 500),
@@ -93,6 +101,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "breve-latte",
+    image: u("photo-1556679343-c7306c1976bc"),
     name: "Breve Latte",
     description: "Made with steamed half & half.",
     category: "Espresso",
@@ -101,6 +110,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "honey-latte",
+    image: u("photo-1546039907-7fa05f864c02"),
     name: "Honey Latte",
     category: "Espresso",
     sizes: sizesSL(500, 550),
@@ -110,6 +120,7 @@ export const MENU: MenuItem[] = [
   // ── Signature Lattes ──
   {
     id: "pumpkin-spice-latte",
+    image: u("photo-1577805947697-89e18249d767"),
     name: "Pumpkin Spice Latte",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -117,6 +128,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "chocolate-mocha",
+    image: u("photo-1497636577773-f1231844b336"),
     name: "Chocolate Mocha",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -124,6 +136,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "white-mocha",
+    image: u("photo-1502462041640-b3d7e50d0662"),
     name: "White Mocha",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -131,6 +144,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "raspberry-white-mocha",
+    image: u("photo-1442512595331-e89e73853f31"),
     name: "Raspberry White Mocha",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -138,6 +152,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "caramel-macchiato",
+    image: u("photo-1488477181946-6428a0291777"),
     name: "Caramel Macchiato",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -145,6 +160,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "shaken-espresso",
+    image: u("photo-1517959105821-eaf2591984ca"),
     name: "Shaken Espresso",
     category: "Signature Lattes",
     sizes: sizesSL(550, 600),
@@ -152,6 +168,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "tiramisu-latte",
+    image: u("photo-1530373239216-42518e6b4063"),
     name: "Tiramisu Latte",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -159,6 +176,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "spanish-latte",
+    image: u("photo-1542367592-8849eb950fd8"),
     name: "Spanish Latte",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -168,6 +186,7 @@ export const MENU: MenuItem[] = [
   // ── Coffee ──
   {
     id: "drip-coffee",
+    image: u("photo-1495474472287-4d71bcdd2085"),
     name: "Drip Coffee",
     category: "Coffee",
     sizes: sizesSL(275, 300),
@@ -175,6 +194,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-brew",
+    image: u("photo-1461023058943-07fcbe16d735"),
     name: "Nitro Brew Coffee",
     category: "Coffee",
     sizes: sizesSL(500, 600),
@@ -182,6 +202,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-cold-foam",
+    image: u("photo-1481833761820-0509d3217039"),
     name: "Nitro w/ Cold Foam",
     category: "Coffee",
     sizes: sizesSL(550, 650),
@@ -191,6 +212,7 @@ export const MENU: MenuItem[] = [
   // ── Gelato ──
   {
     id: "gelato",
+    image: u("photo-1525385133512-2f3bdd039054"),
     name: "Gelato",
     description: "Ask the barista for today's flavors.",
     category: "Gelato",
@@ -202,6 +224,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "affogato",
+    image: u("photo-1568901346375-23c9450c58cd"),
     name: "Affogato",
     description: "A scoop of gelato drowned in a fresh espresso shot.",
     category: "Gelato",
@@ -211,6 +234,7 @@ export const MENU: MenuItem[] = [
   // ── Tea ──
   {
     id: "chai-tea-latte",
+    image: u("photo-1571091655789-405eb7a3a3a8"),
     name: "Chai Tea Latte",
     category: "Tea",
     sizes: sizesSL(450, 500),
@@ -218,6 +242,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-tea-latte",
+    image: u("photo-1536256263959-770b48d82b0a"),
     name: "Matcha Tea Latte",
     category: "Tea",
     sizes: sizesSL(450, 500),
@@ -225,6 +250,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "hot-tea",
+    image: u("photo-1576092768241-dec231879fc3"),
     name: "Hot Tea",
     description: "Ask for today's selection.",
     category: "Tea",
@@ -233,6 +259,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "london-fog",
+    image: u("photo-1473923377535-0002805f57e8"),
     name: "London Fog",
     description: "Earl grey, vanilla, steamed milk.",
     category: "Tea",
@@ -241,6 +268,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-chai",
+    image: u("photo-1546549032-9571cd6b27df"),
     name: "Matcha Chai",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -248,6 +276,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "strawberry-matcha",
+    image: u("photo-1565299585323-38d6b0865b47"),
     name: "Strawberry Matcha",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -255,6 +284,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "raspberry-matcha",
+    image: u("photo-1551030173-122aabc4489c"),
     name: "Raspberry Matcha",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -264,6 +294,7 @@ export const MENU: MenuItem[] = [
   // ── Boba ──
   {
     id: "boba-caramel-macchiato",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Caramel Macchiato Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -271,6 +302,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-white-mocha",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "White Mocha Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -278,6 +310,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-shaken-espresso",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Shaken Espresso Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -285,6 +318,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-spanish-latte",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Spanish Latte Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -292,6 +326,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-pumpkin-spice",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Pumpkin Spice Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -299,6 +334,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-honey-chai",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Honey Chai Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -306,6 +342,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-matcha-tea",
+    image: u("photo-1541696490-8744a5dc0228"),
     name: "Matcha Tea Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -315,30 +352,35 @@ export const MENU: MenuItem[] = [
   // ── Refreshing Drinks ──
   {
     id: "soda-passionfruit",
+    image: u("photo-1597318181409-cf64d0b5d8a2"),
     name: "Passionfruit Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(400),
   },
   {
     id: "soda-strawberry",
+    image: u("photo-1597318181409-cf64d0b5d8a2"),
     name: "Strawberry Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(400),
   },
   {
     id: "soda-raspberry",
+    image: u("photo-1597318181409-cf64d0b5d8a2"),
     name: "Raspberry Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(400),
   },
   {
     id: "soda-cream",
+    image: u("photo-1517256673644-36ad11246d21"),
     name: "Italian Soda w/ Cream",
     category: "Refreshing Drinks",
     sizes: sizeOne(425),
   },
   {
     id: "soda-redbull",
+    image: u("photo-1593504049359-74330189a345"),
     name: "Red Bull Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(500),
