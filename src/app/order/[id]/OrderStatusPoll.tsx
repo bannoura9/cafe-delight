@@ -3,16 +3,24 @@
 import { useEffect, useState } from "react";
 
 type Snapshot = {
-  status: "received" | "preparing" | "ready" | "completed";
+  status:
+    | "pending_payment"
+    | "received"
+    | "preparing"
+    | "ready"
+    | "completed"
+    | "cancelled";
   readyAt: number | null;
   notifiedAt: number | null;
 };
 
 const STATUS_LABEL: Record<Snapshot["status"], string> = {
+  pending_payment: "Waiting for payment…",
   received: "Order received",
   preparing: "Preparing your order",
   ready: "Ready for pickup! 🎉",
   completed: "Picked up — thanks!",
+  cancelled: "Cancelled",
 };
 
 export function OrderStatusPoll({

@@ -1,7 +1,8 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { chargeAndCreateOrder } from "@/lib/clover";
+import { createHostedCheckout } from "@/lib/clover";
 import { createOrder, type OrderItem } from "@/lib/orders";
 import { isOpenNow } from "@/lib/hours";
 
@@ -19,6 +20,14 @@ export type CheckoutState = {
   error?: string;
 };
 
+async function siteOrigin(): Promise<string> {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  const h = await headers();
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  return `${proto}://${host}`;
+}
+
 export async function placeOrder(
   _prev: CheckoutState,
   formData: FormData,
@@ -29,7 +38,6 @@ export async function placeOrder(
 
   const customerName = String(formData.get("name") ?? "").trim();
   const customerPhone = String(formData.get("phone") ?? "").trim();
-  const cardToken = String(formData.get("cardToken") ?? "tok_visa").trim();
   const tipPct = Number(formData.get("tipPct") ?? 0);
   const linesRaw = String(formData.get("lines") ?? "[]");
 
@@ -65,21 +73,9 @@ export async function placeOrder(
   const tipCents = Math.round(subtotalCents * (tipPct / 100));
   const totalCents = subtotalCents + taxCents + tipCents;
 
-  let cloverResult;
-  try {
-    cloverResult = await chargeAndCreateOrder({
-      amountCents: totalCents,
-      cardToken,
-      customerName,
-      customerPhone,
-      items,
-    });
-  } catch (e) {
-    return { error: e instanceof Error ? e.message : "Payment failed." };
-  }
-
+  // Create our internal order first so we have an ID to put in the redirect URL.
   const order = await createOrder({
-    cloverOrderId: cloverResult.cloverOrderId,
+    cloverOrderId: null,
     customerName,
     customerPhone,
     items,
@@ -89,5 +85,25 @@ export async function placeOrder(
     totalCents,
   });
 
-  redirect(`/order/${order.id}`);
+  // Hand off to Clover hosted checkout.
+  const origin = await siteOrigin();
+  let checkout;
+  try {
+    checkout = await createHostedCheckout({
+      ourOrderId: order.id,
+      items,
+      taxCents,
+      tipCents,
+      customerName,
+      customerPhone,
+      successUrl: `${origin}/order/${order.id}/success`,
+      cancelUrl: `${origin}/cart`,
+    });
+  } catch (e) {
+    return {
+      error: e instanceof Error ? e.message : "Payment setup failed.",
+    };
+  }
+
+  redirect(checkout.href);
 }

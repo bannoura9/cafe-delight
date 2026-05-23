@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS orders (
   tax_cents INTEGER NOT NULL,
   tip_cents INTEGER NOT NULL,
   total_cents INTEGER NOT NULL,
-  status TEXT NOT NULL CHECK (status IN ('received','preparing','ready','completed')) DEFAULT 'received',
+  status TEXT NOT NULL CHECK (status IN ('pending_payment','received','preparing','ready','completed','cancelled')) DEFAULT 'pending_payment',
   created_at BIGINT NOT NULL,
   ready_at BIGINT,
   notified_at BIGINT
@@ -40,3 +40,10 @@ CREATE TABLE IF NOT EXISTS sms_log (
 );
 
 CREATE INDEX IF NOT EXISTS sms_log_sent_at_idx ON sms_log (sent_at DESC);
+
+-- Migrations (idempotent). Safe to re-run.
+ALTER TABLE orders DROP CONSTRAINT IF EXISTS orders_status_check;
+ALTER TABLE orders ADD CONSTRAINT orders_status_check CHECK (status IN ('pending_payment','received','preparing','ready','completed','cancelled'));
+ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending_payment';
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS clover_payment_id TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS paid_at BIGINT;

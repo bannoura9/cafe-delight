@@ -10,7 +10,13 @@ export type OrderItem = {
   lineTotalCents: number;
 };
 
-export type OrderStatus = "received" | "preparing" | "ready" | "completed";
+export type OrderStatus =
+  | "pending_payment"
+  | "received"
+  | "preparing"
+  | "ready"
+  | "completed"
+  | "cancelled";
 
 export type Order = {
   id: string;
@@ -89,7 +95,7 @@ export async function createOrder(
     ) VALUES (
       ${id}, ${input.cloverOrderId}, ${input.customerName}, ${input.customerPhone},
       ${input.subtotalCents}, ${input.taxCents}, ${input.tipCents}, ${input.totalCents},
-      'received', ${createdAt}
+      'pending_payment', ${createdAt}
     )
   `;
 
@@ -116,11 +122,26 @@ export async function createOrder(
     taxCents: input.taxCents,
     tipCents: input.tipCents,
     totalCents: input.totalCents,
-    status: "received",
+    status: "pending_payment",
     createdAt,
     readyAt: null,
     notifiedAt: null,
   };
+}
+
+export async function markOrderPaid(
+  id: string,
+  cloverOrderId: string,
+  cloverPaymentId: string,
+): Promise<void> {
+  await sql`
+    UPDATE orders
+    SET status = 'received',
+        clover_order_id = ${cloverOrderId},
+        clover_payment_id = ${cloverPaymentId},
+        paid_at = ${Date.now()}
+    WHERE id = ${id} AND status = 'pending_payment'
+  `;
 }
 
 export async function getOrder(id: string): Promise<Order | undefined> {

@@ -17,15 +17,14 @@ export default function CheckoutPage() {
   const clear = useCart((s) => s.clear);
 
   const [tipPct, setTipPct] = useState<number>(15);
-  const [cardToken, setCardToken] = useState("tok_visa");
 
   const [state, formAction, pending] = useActionState<CheckoutState, FormData>(
     placeOrder,
     {},
   );
 
+  // On unmount (after the action redirects to Clover), clear the cart.
   useEffect(() => {
-    // On hard navigation away after redirect, clear cart.
     return () => {
       if (state && !state.error) clear();
     };
@@ -64,7 +63,6 @@ export default function CheckoutPage() {
           )}
         />
         <input type="hidden" name="tipPct" value={tipPct} />
-        <input type="hidden" name="cardToken" value={cardToken} />
 
         <fieldset className="space-y-3">
           <legend className="font-semibold text-espresso">Your info</legend>
@@ -72,6 +70,7 @@ export default function CheckoutPage() {
             name="name"
             placeholder="Name"
             required
+            autoComplete="name"
             className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
           />
           <input
@@ -79,6 +78,7 @@ export default function CheckoutPage() {
             placeholder="Mobile number (for SMS when ready)"
             required
             inputMode="tel"
+            autoComplete="tel"
             className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
           />
         </fieldset>
@@ -103,24 +103,6 @@ export default function CheckoutPage() {
           </div>
         </fieldset>
 
-        <fieldset className="space-y-3">
-          <legend className="font-semibold text-espresso">Payment</legend>
-          <div className="rounded-xl border border-espresso/20 bg-cream-2/40 p-4 text-sm text-espresso/70">
-            <div className="flex items-center justify-between">
-              <span>Mock payment (real Clover swap-in)</span>
-              <select
-                value={cardToken}
-                onChange={(e) => setCardToken(e.target.value)}
-                className="rounded-lg bg-cream border border-espresso/20 px-2 py-1"
-              >
-                <option value="tok_visa">Visa •••• 4242 (succeeds)</option>
-                <option value="tok_amex">Amex •••• 0005 (succeeds)</option>
-                <option value="tok_fail">Card declined (test)</option>
-              </select>
-            </div>
-          </div>
-        </fieldset>
-
         <div className="rounded-2xl bg-cream-2/50 border border-espresso/10 p-4 space-y-1 tabular-nums">
           <Row label="Subtotal" value={formatMoney(subtotal)} />
           <Row label={`Tax (${(TAX_RATE * 100).toFixed(2)}%)`} value={formatMoney(tax)} />
@@ -128,6 +110,14 @@ export default function CheckoutPage() {
           <div className="border-t border-espresso/10 pt-2 mt-2">
             <Row label="Total" value={formatMoney(total)} bold />
           </div>
+        </div>
+
+        <div className="text-xs text-espresso/60 flex items-start gap-2 px-1">
+          <span aria-hidden>🔒</span>
+          <span>
+            Card payment is handled by Clover on a secure hosted page. We never see
+            your card number. You&apos;ll be redirected back here when payment completes.
+          </span>
         </div>
 
         {state?.error ? (
@@ -141,7 +131,9 @@ export default function CheckoutPage() {
           disabled={pending}
           className="w-full rounded-full bg-espresso text-cream py-4 font-medium hover:bg-espresso-2 disabled:opacity-60"
         >
-          {pending ? "Placing order…" : `Pay ${formatMoney(total)} & place order`}
+          {pending
+            ? "Redirecting to payment…"
+            : `Continue to payment · ${formatMoney(total)} →`}
         </button>
       </form>
     </div>
