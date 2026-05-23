@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { config } from "@/lib/config";
 import { isOpenNow, hoursLabel } from "@/lib/hours";
+import { HeroCartButton } from "@/components/HeroCartButton";
 
 export default function HomePage() {
   const open = isOpenNow();
@@ -29,12 +30,7 @@ export default function HomePage() {
             >
               See the menu
             </Link>
-            <Link
-              href="/cart"
-              className="inline-flex items-center justify-center rounded-full border border-espresso/20 px-6 py-3 font-medium hover:bg-cream-2 transition"
-            >
-              View cart
-            </Link>
+            <HeroCartButton />
           </div>
         </div>
         <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-crema/40 to-espresso/30 overflow-hidden relative">
