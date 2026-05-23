@@ -6,7 +6,7 @@ export async function GET(
   ctx: { params: Promise<{ id: string }> },
 ) {
   const { id } = await ctx.params;
-  const order = getOrder(id);
+  const order = await getOrder(id);
   if (!order) return new NextResponse("Not found", { status: 404 });
   return NextResponse.json({
     status: order.status,

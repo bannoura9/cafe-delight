@@ -15,8 +15,7 @@ async function authed(): Promise<boolean> {
 export default async function AdminPage() {
   if (!(await authed())) return <LoginForm />;
 
-  const orders = listOrders();
-  const sms = getSmsLog().slice(0, 8);
+  const [orders, sms] = await Promise.all([listOrders(), getSmsLog(8)]);
 
   async function logout() {
     "use server";

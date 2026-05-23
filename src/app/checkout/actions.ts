@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import { chargeAndCreateOrder } from "@/lib/clover";
 import { createOrder, type OrderItem } from "@/lib/orders";
-import { config } from "@/lib/config";
 import { isOpenNow } from "@/lib/hours";
 
 const TAX_RATE = 0.0775;
@@ -79,7 +78,7 @@ export async function placeOrder(
     return { error: e instanceof Error ? e.message : "Payment failed." };
   }
 
-  const order = createOrder({
+  const order = await createOrder({
     cloverOrderId: cloverResult.cloverOrderId,
     customerName,
     customerPhone,
@@ -89,20 +88,6 @@ export async function placeOrder(
     tipCents,
     totalCents,
   });
-
-  if (config.mockMode) {
-    // Auto-mark ready after a few seconds in mock mode for demo purposes.
-    setTimeout(async () => {
-      const { setOrderStatus, markNotified } = await import("@/lib/orders");
-      const { sendSms } = await import("@/lib/sms");
-      setOrderStatus(order.id, "ready");
-      await sendSms(
-        customerPhone,
-        `${config.businessName}: Your order #${order.id} is ready for pickup at ${config.businessAddress}.`,
-      );
-      markNotified(order.id);
-    }, 8000);
-  }
 
   redirect(`/order/${order.id}`);
 }

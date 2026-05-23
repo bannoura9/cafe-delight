@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { sql } from "./db";
 
 export type OrderItem = {
   menuItemId: string;
@@ -8,6 +9,8 @@ export type OrderItem = {
   modifiers: { id: string; name: string; priceCents: number }[];
   lineTotalCents: number;
 };
+
+export type OrderStatus = "received" | "preparing" | "ready" | "completed";
 
 export type Order = {
   id: string;
@@ -19,29 +22,91 @@ export type Order = {
   taxCents: number;
   tipCents: number;
   totalCents: number;
-  status: "received" | "preparing" | "ready" | "completed";
+  status: OrderStatus;
   createdAt: number;
   readyAt: number | null;
   notifiedAt: number | null;
 };
 
-declare global {
-  // eslint-disable-next-line no-var
-  var __cafeDelightOrders: Map<string, Order> | undefined;
+type OrderRow = {
+  id: string;
+  clover_order_id: string | null;
+  customer_name: string;
+  customer_phone: string;
+  subtotal_cents: number;
+  tax_cents: number;
+  tip_cents: number;
+  total_cents: number;
+  status: OrderStatus;
+  created_at: number;
+  ready_at: number | null;
+  notified_at: number | null;
+};
+
+type ItemRow = {
+  order_id: string;
+  position: number;
+  menu_item_id: string;
+  name: string;
+  unit_price_cents: number;
+  quantity: number;
+  modifiers: OrderItem["modifiers"];
+  line_total_cents: number;
+};
+
+function rowToOrder(row: OrderRow, items: OrderItem[]): Order {
+  return {
+    id: row.id,
+    cloverOrderId: row.clover_order_id,
+    customerName: row.customer_name,
+    customerPhone: row.customer_phone,
+    items,
+    subtotalCents: Number(row.subtotal_cents),
+    taxCents: Number(row.tax_cents),
+    tipCents: Number(row.tip_cents),
+    totalCents: Number(row.total_cents),
+    status: row.status,
+    createdAt: Number(row.created_at),
+    readyAt: row.ready_at == null ? null : Number(row.ready_at),
+    notifiedAt: row.notified_at == null ? null : Number(row.notified_at),
+  };
 }
 
-const store: Map<string, Order> =
-  globalThis.__cafeDelightOrders ?? new Map<string, Order>();
-globalThis.__cafeDelightOrders = store;
-
-export function createOrder(
+export async function createOrder(
   input: Omit<
     Order,
     "id" | "status" | "createdAt" | "readyAt" | "notifiedAt" | "cloverOrderId"
   > & { cloverOrderId: string | null },
-): Order {
+): Promise<Order> {
   const id = randomUUID().slice(0, 8);
-  const order: Order = {
+  const createdAt = Date.now();
+
+  await sql`
+    INSERT INTO orders (
+      id, clover_order_id, customer_name, customer_phone,
+      subtotal_cents, tax_cents, tip_cents, total_cents,
+      status, created_at
+    ) VALUES (
+      ${id}, ${input.cloverOrderId}, ${input.customerName}, ${input.customerPhone},
+      ${input.subtotalCents}, ${input.taxCents}, ${input.tipCents}, ${input.totalCents},
+      'received', ${createdAt}
+    )
+  `;
+
+  for (let i = 0; i < input.items.length; i++) {
+    const it = input.items[i];
+    await sql`
+      INSERT INTO order_items (
+        order_id, position, menu_item_id, name, unit_price_cents,
+        quantity, modifiers, line_total_cents
+      ) VALUES (
+        ${id}, ${i}, ${it.menuItemId}, ${it.name}, ${it.unitPriceCents},
+        ${it.quantity}, ${JSON.stringify(it.modifiers)}::jsonb, ${it.lineTotalCents}
+      )
+    `;
+  }
+
+  return {
     id,
     cloverOrderId: input.cloverOrderId,
     customerName: input.customerName,
@@ -52,31 +117,73 @@ export function createOrder(
     tipCents: input.tipCents,
     totalCents: input.totalCents,
     status: "received",
-    createdAt: Date.now(),
+    createdAt,
     readyAt: null,
     notifiedAt: null,
   };
-  store.set(id, order);
-  return order;
 }
 
-export function getOrder(id: string): Order | undefined {
-  return store.get(id);
+export async function getOrder(id: string): Promise<Order | undefined> {
+  const rows = (await sql`SELECT * FROM orders WHERE id = ${id} LIMIT 1`) as OrderRow[];
+  if (rows.length === 0) return undefined;
+  const itemRows = (await sql`
+    SELECT * FROM order_items WHERE order_id = ${id} ORDER BY position ASC
+  `) as ItemRow[];
+  const items: OrderItem[] = itemRows.map((r) => ({
+    menuItemId: r.menu_item_id,
+    name: r.name,
+    unitPriceCents: Number(r.unit_price_cents),
+    quantity: Number(r.quantity),
+    modifiers: r.modifiers,
+    lineTotalCents: Number(r.line_total_cents),
+  }));
+  return rowToOrder(rows[0], items);
 }
 
-export function listOrders(): Order[] {
-  return Array.from(store.values()).sort((a, b) => b.createdAt - a.createdAt);
+export async function listOrders(): Promise<Order[]> {
+  const orderRows = (await sql`
+    SELECT * FROM orders ORDER BY created_at DESC LIMIT 100
+  `) as OrderRow[];
+  if (orderRows.length === 0) return [];
+
+  const ids = orderRows.map((r) => r.id);
+  const itemRows = (await sql`
+    SELECT * FROM order_items WHERE order_id = ANY(${ids}::text[]) ORDER BY position ASC
+  `) as ItemRow[];
+
+  const itemsByOrder = new Map<string, OrderItem[]>();
+  for (const r of itemRows) {
+    const list = itemsByOrder.get(r.order_id) ?? [];
+    list.push({
+      menuItemId: r.menu_item_id,
+      name: r.name,
+      unitPriceCents: Number(r.unit_price_cents),
+      quantity: Number(r.quantity),
+      modifiers: r.modifiers,
+      lineTotalCents: Number(r.line_total_cents),
+    });
+    itemsByOrder.set(r.order_id, list);
+  }
+
+  return orderRows.map((r) => rowToOrder(r, itemsByOrder.get(r.id) ?? []));
 }
 
-export function setOrderStatus(id: string, status: Order["status"]): Order | undefined {
-  const order = store.get(id);
-  if (!order) return undefined;
-  order.status = status;
-  if (status === "ready" && !order.readyAt) order.readyAt = Date.now();
-  return order;
+export async function setOrderStatus(
+  id: string,
+  status: OrderStatus,
+): Promise<Order | undefined> {
+  if (status === "ready") {
+    await sql`
+      UPDATE orders
+      SET status = ${status}, ready_at = COALESCE(ready_at, ${Date.now()})
+      WHERE id = ${id}
+    `;
+  } else {
+    await sql`UPDATE orders SET status = ${status} WHERE id = ${id}`;
+  }
+  return getOrder(id);
 }
 
-export function markNotified(id: string): void {
-  const order = store.get(id);
-  if (order) order.notifiedAt = Date.now();
+export async function markNotified(id: string): Promise<void> {
+  await sql`UPDATE orders SET notified_at = ${Date.now()} WHERE id = ${id}`;
 }
