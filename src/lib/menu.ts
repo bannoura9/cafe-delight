@@ -4,156 +4,366 @@ export type Modifier = {
   priceCents: number;
 };
 
+export type Size = {
+  id: string;
+  label: string;
+  priceCents: number;
+};
+
+export type Category =
+  | "Espresso"
+  | "Signature Lattes"
+  | "Coffee"
+  | "Gelato"
+  | "Tea"
+  | "Boba"
+  | "Refreshing Drinks";
+
 export type MenuItem = {
   id: string;
   name: string;
-  description: string;
-  priceCents: number;
-  category: "Espresso" | "Brewed" | "Cold" | "Tea" | "Pastries" | "Sandwiches";
-  image: string;
+  description?: string;
+  category: Category;
+  sizes: Size[];
   modifiers?: Modifier[];
 };
 
-const milkOptions: Modifier[] = [
-  { id: "milk-whole", name: "Whole milk", priceCents: 0 },
-  { id: "milk-oat", name: "Oat milk", priceCents: 75 },
-  { id: "milk-almond", name: "Almond milk", priceCents: 75 },
-  { id: "milk-skim", name: "Skim milk", priceCents: 0 },
+const MILK_OPTIONS: Modifier[] = [
+  { id: "milk-oat", name: "Oat milk", priceCents: 50 },
+  { id: "milk-almond", name: "Almond milk", priceCents: 50 },
+  { id: "milk-soy", name: "Soy milk", priceCents: 50 },
+  { id: "milk-coconut", name: "Coconut milk", priceCents: 50 },
 ];
 
-const shotOptions: Modifier[] = [
-  { id: "shot-extra", name: "Extra shot", priceCents: 100 },
-  { id: "shot-decaf", name: "Decaf", priceCents: 0 },
+const FLAVOR_OPTIONS: Modifier[] = [
+  { id: "flav-vanilla", name: "Vanilla", priceCents: 50 },
+  { id: "flav-caramel", name: "Caramel", priceCents: 50 },
+  { id: "flav-hazelnut", name: "Hazelnut", priceCents: 50 },
+  { id: "flav-almond", name: "Almond", priceCents: 50 },
+  { id: "flav-irish-cream", name: "Irish Cream", priceCents: 50 },
+  { id: "flav-pistachio", name: "Pistachio", priceCents: 50 },
+  { id: "flav-coconut-syrup", name: "Coconut", priceCents: 50 },
+  { id: "flav-salted-caramel", name: "Salted Caramel", priceCents: 50 },
+  { id: "flav-peppermint", name: "Peppermint", priceCents: 50 },
+  { id: "flav-lavender", name: "Lavender", priceCents: 50 },
+  { id: "flav-raspberry", name: "Raspberry", priceCents: 50 },
+  { id: "flav-tiramisu", name: "Tiramisu", priceCents: 50 },
+  { id: "flav-pumpkin-spice", name: "Pumpkin Spice", priceCents: 50 },
+];
+
+const BARISTA_MODS: Modifier[] = [...MILK_OPTIONS, ...FLAVOR_OPTIONS];
+
+const sizesSL = (small: number, large: number): Size[] => [
+  { id: "small", label: "Small", priceCents: small },
+  { id: "large", label: "Large", priceCents: large },
+];
+const sizeOne = (cents: number, label = "Regular"): Size[] => [
+  { id: "regular", label, priceCents: cents },
 ];
 
 export const MENU: MenuItem[] = [
+  // ── Espresso ──
   {
-    id: "latte",
-    name: "Latte",
-    description: "Double shot of espresso with steamed milk and light foam.",
-    priceCents: 525,
+    id: "espresso-shot",
+    name: "Espresso Shot",
     category: "Espresso",
-    image:
-      "https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=800&q=80",
-    modifiers: [...milkOptions, ...shotOptions],
-  },
-  {
-    id: "cappuccino",
-    name: "Cappuccino",
-    description: "Equal parts espresso, steamed milk, and dense foam.",
-    priceCents: 500,
-    category: "Espresso",
-    image:
-      "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80",
-    modifiers: [...milkOptions, ...shotOptions],
+    sizes: sizesSL(200, 300),
+    modifiers: FLAVOR_OPTIONS,
   },
   {
     id: "americano",
     name: "Americano",
-    description: "Espresso with hot water — bold and clean.",
-    priceCents: 425,
     category: "Espresso",
-    image:
-      "https://images.unsplash.com/photo-1581996323441-3d3b1f6f7c2c?w=800&q=80",
-    modifiers: shotOptions,
+    sizes: sizesSL(350, 400),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "drip",
-    name: "House Drip",
-    description: "Single-origin medium roast, brewed fresh hourly.",
-    priceCents: 325,
-    category: "Brewed",
-    image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    id: "cortado",
+    name: "Cortado",
+    category: "Espresso",
+    sizes: sizeOne(350),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "pourover",
-    name: "Pour Over",
-    description: "Hand-poured Ethiopian. Bright, floral, citrus finish.",
-    priceCents: 525,
-    category: "Brewed",
-    image:
-      "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80",
+    id: "latte",
+    name: "Latte",
+    category: "Espresso",
+    sizes: sizesSL(450, 500),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "cold-brew",
-    name: "Cold Brew",
-    description: "Steeped 18 hours. Smooth, low-acid, naturally sweet.",
-    priceCents: 475,
-    category: "Cold",
-    image:
-      "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
-    modifiers: milkOptions,
+    id: "breve-latte",
+    name: "Breve Latte",
+    description: "Made with steamed half & half.",
+    category: "Espresso",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "iced-latte",
-    name: "Iced Latte",
-    description: "Espresso poured over ice with cold milk.",
-    priceCents: 550,
-    category: "Cold",
-    image:
-      "https://images.unsplash.com/photo-1517959105821-eaf2591984ca?w=800&q=80",
-    modifiers: [...milkOptions, ...shotOptions],
+    id: "honey-latte",
+    name: "Honey Latte",
+    category: "Espresso",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+
+  // ── Signature Lattes ──
+  {
+    id: "pumpkin-spice-latte",
+    name: "Pumpkin Spice Latte",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "matcha",
-    name: "Matcha Latte",
-    description: "Ceremonial-grade matcha whisked with steamed milk.",
-    priceCents: 575,
+    id: "chocolate-mocha",
+    name: "Chocolate Mocha",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "white-mocha",
+    name: "White Mocha",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "raspberry-white-mocha",
+    name: "Raspberry White Mocha",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "caramel-macchiato",
+    name: "Caramel Macchiato",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "shaken-espresso",
+    name: "Shaken Espresso",
+    category: "Signature Lattes",
+    sizes: sizesSL(550, 600),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "tiramisu-latte",
+    name: "Tiramisu Latte",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "spanish-latte",
+    name: "Spanish Latte",
+    category: "Signature Lattes",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+
+  // ── Coffee ──
+  {
+    id: "drip-coffee",
+    name: "Drip Coffee",
+    category: "Coffee",
+    sizes: sizesSL(275, 300),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "nitro-brew",
+    name: "Nitro Brew Coffee",
+    category: "Coffee",
+    sizes: sizesSL(500, 600),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "nitro-cold-foam",
+    name: "Nitro w/ Cold Foam",
+    category: "Coffee",
+    sizes: sizesSL(550, 650),
+    modifiers: BARISTA_MODS,
+  },
+
+  // ── Gelato ──
+  {
+    id: "gelato",
+    name: "Gelato",
+    description: "Ask the barista for today's flavors.",
+    category: "Gelato",
+    sizes: [
+      { id: "small-4oz", label: "Small (4oz)", priceCents: 475 },
+      { id: "medium-5oz", label: "Medium (5oz)", priceCents: 525 },
+      { id: "large-8oz", label: "Large (8oz)", priceCents: 750 },
+    ],
+  },
+  {
+    id: "affogato",
+    name: "Affogato",
+    description: "A scoop of gelato drowned in a fresh espresso shot.",
+    category: "Gelato",
+    sizes: sizeOne(600),
+  },
+
+  // ── Tea ──
+  {
+    id: "chai-tea-latte",
+    name: "Chai Tea Latte",
     category: "Tea",
-    image:
-      "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=800&q=80",
-    modifiers: milkOptions,
+    sizes: sizesSL(450, 500),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "earl-grey",
-    name: "Earl Grey",
-    description: "Bergamot black tea, full leaf.",
-    priceCents: 350,
+    id: "matcha-tea-latte",
+    name: "Matcha Tea Latte",
     category: "Tea",
-    image:
-      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&q=80",
+    sizes: sizesSL(450, 500),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "croissant",
-    name: "Butter Croissant",
-    description: "Baked in-house. Flaky, golden, 81 layers.",
-    priceCents: 425,
-    category: "Pastries",
-    image:
-      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80",
+    id: "hot-tea",
+    name: "Hot Tea",
+    description: "Ask for today's selection.",
+    category: "Tea",
+    sizes: sizeOne(300),
+    modifiers: MILK_OPTIONS,
   },
   {
-    id: "scone",
-    name: "Blueberry Scone",
-    description: "Fresh blueberries, lemon glaze.",
-    priceCents: 425,
-    category: "Pastries",
-    image:
-      "https://images.unsplash.com/photo-1568051243851-f9b136146e97?w=800&q=80",
+    id: "london-fog",
+    name: "London Fog",
+    description: "Earl grey, vanilla, steamed milk.",
+    category: "Tea",
+    sizes: sizesSL(400, 450),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "avocado-toast",
-    name: "Avocado Toast",
-    description:
-      "Smashed avocado, lemon, chili flake on toasted sourdough.",
-    priceCents: 950,
-    category: "Sandwiches",
-    image:
-      "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=800&q=80",
+    id: "matcha-chai",
+    name: "Matcha Chai",
+    category: "Tea",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
   },
   {
-    id: "breakfast-sandwich",
-    name: "Breakfast Sandwich",
-    description: "Egg, sharp cheddar, smoked bacon on a brioche bun.",
-    priceCents: 875,
-    category: "Sandwiches",
-    image:
-      "https://images.unsplash.com/photo-1521986329282-0436c1f1e212?w=800&q=80",
+    id: "strawberry-matcha",
+    name: "Strawberry Matcha",
+    category: "Tea",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+  {
+    id: "raspberry-matcha",
+    name: "Raspberry Matcha",
+    category: "Tea",
+    sizes: sizesSL(500, 550),
+    modifiers: BARISTA_MODS,
+  },
+
+  // ── Boba ──
+  {
+    id: "boba-caramel-macchiato",
+    name: "Caramel Macchiato Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-white-mocha",
+    name: "White Mocha Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-shaken-espresso",
+    name: "Shaken Espresso Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-spanish-latte",
+    name: "Spanish Latte Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-pumpkin-spice",
+    name: "Pumpkin Spice Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-honey-chai",
+    name: "Honey Chai Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+  {
+    id: "boba-matcha-tea",
+    name: "Matcha Tea Boba",
+    category: "Boba",
+    sizes: sizeOne(600),
+    modifiers: MILK_OPTIONS,
+  },
+
+  // ── Refreshing Drinks ──
+  {
+    id: "soda-passionfruit",
+    name: "Passionfruit Italian Soda",
+    category: "Refreshing Drinks",
+    sizes: sizeOne(400),
+  },
+  {
+    id: "soda-strawberry",
+    name: "Strawberry Italian Soda",
+    category: "Refreshing Drinks",
+    sizes: sizeOne(400),
+  },
+  {
+    id: "soda-raspberry",
+    name: "Raspberry Italian Soda",
+    category: "Refreshing Drinks",
+    sizes: sizeOne(400),
+  },
+  {
+    id: "soda-cream",
+    name: "Italian Soda w/ Cream",
+    category: "Refreshing Drinks",
+    sizes: sizeOne(425),
+  },
+  {
+    id: "soda-redbull",
+    name: "Red Bull Italian Soda",
+    category: "Refreshing Drinks",
+    sizes: sizeOne(500),
   },
 ];
 
-export const CATEGORIES = Array.from(new Set(MENU.map((m) => m.category)));
+export const CATEGORIES: Category[] = [
+  "Espresso",
+  "Signature Lattes",
+  "Coffee",
+  "Gelato",
+  "Tea",
+  "Boba",
+  "Refreshing Drinks",
+];
+
+export const CATEGORY_EMOJI: Record<Category, string> = {
+  Espresso: "☕",
+  "Signature Lattes": "🥛",
+  Coffee: "☕",
+  Gelato: "🍨",
+  Tea: "🍵",
+  Boba: "🧋",
+  "Refreshing Drinks": "🥤",
+};
 
 export function getMenuItem(id: string): MenuItem | undefined {
   return MENU.find((m) => m.id === id);
