@@ -97,7 +97,8 @@
       "Bash(vercel env *)",
       "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Add temporary debug logging to checkout action\")",
       "Bash(curl -sf -o /dev/null https://cafedelightco.com/menu)",
-      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Fix isOpenNow timezone bug *)"
+      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Fix isOpenNow timezone bug *)",
+      "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Add BYPASS_HOURS env var to allow off-hours testing\")"
     ]
   }
 }

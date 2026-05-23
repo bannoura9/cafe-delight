@@ -23,6 +23,8 @@ const DAY_NAME_TO_INDEX: Record<string, number> = {
 };
 
 export function isOpenNow(now: Date = new Date()): boolean {
+  if (process.env.BYPASS_HOURS === "true") return true;
+
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: TZ,
     weekday: "short",
