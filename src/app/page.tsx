@@ -3,6 +3,8 @@ import Image from "next/image";
 import { config } from "@/lib/config";
 import { isOpenNow, hoursLabel } from "@/lib/hours";
 import { HeroCartButton } from "@/components/HeroCartButton";
+import { OrderAgain } from "@/components/OrderAgain";
+import { FeaturedDrink } from "@/components/FeaturedDrink";
 import { JsonLd } from "@/components/JsonLd";
 import { localBusinessLd } from "@/lib/seo";
 
@@ -48,6 +50,9 @@ export default function HomePage() {
           />
         </div>
       </section>
+
+      <OrderAgain />
+      <FeaturedDrink />
 
       <section className="max-w-6xl mx-auto px-4 pb-16 grid gap-6 sm:grid-cols-3">
         {[

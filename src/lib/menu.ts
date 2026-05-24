@@ -30,7 +30,13 @@ export type MenuItem = {
   modifiers?: Modifier[];
   image?: string;
   temperature: Temperature;
+  featured?: boolean;
+  tagline?: string;
 };
+
+export function getFeaturedItem(): MenuItem | undefined {
+  return MENU.find((m) => m.featured);
+}
 
 const u = (id: string) =>
   `https://images.unsplash.com/${id}?w=600&q=80&auto=format&fit=crop`;
@@ -198,6 +204,8 @@ export const MENU: MenuItem[] = [
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
     modifiers: BARISTA_MODS,
+    featured: true,
+    tagline: "Sweet, silky, with steamed condensed milk. Our most-loved signature.",
   },
 
   // ── Coffee ──

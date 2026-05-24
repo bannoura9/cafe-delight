@@ -5,6 +5,7 @@ import { useCart } from "@/lib/cartStore";
 import { formatMoney } from "@/lib/menu";
 import { ClosedBanner } from "@/components/ClosedBanner";
 import { placeOrder, type CheckoutState } from "./actions";
+import { Upsell } from "./Upsell";
 
 const TAX_RATE = 0.0775;
 const TIP_OPTIONS = [0, 10, 15, 20];
@@ -104,6 +105,8 @@ export default function CheckoutPage() {
             ))}
           </div>
         </fieldset>
+
+        <Upsell />
 
         <div className="rounded-2xl bg-cream-2/50 border border-espresso/10 p-4 space-y-1 tabular-nums">
           <Row label="Subtotal" value={formatMoney(subtotal)} />

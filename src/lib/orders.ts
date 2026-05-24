@@ -31,6 +31,7 @@ export type Order = {
   totalCents: number;
   status: OrderStatus;
   createdAt: number;
+  paidAt: number | null;
   readyAt: number | null;
   notifiedAt: number | null;
 };
@@ -47,6 +48,7 @@ type OrderRow = {
   total_cents: number;
   status: OrderStatus;
   created_at: number;
+  paid_at: number | null;
   ready_at: number | null;
   notified_at: number | null;
 };
@@ -76,6 +78,7 @@ function rowToOrder(row: OrderRow, items: OrderItem[]): Order {
     totalCents: Number(row.total_cents),
     status: row.status,
     createdAt: Number(row.created_at),
+    paidAt: row.paid_at == null ? null : Number(row.paid_at),
     readyAt: row.ready_at == null ? null : Number(row.ready_at),
     notifiedAt: row.notified_at == null ? null : Number(row.notified_at),
   };
@@ -128,6 +131,7 @@ export async function createOrder(
     totalCents: input.totalCents,
     status: "pending_payment",
     createdAt,
+    paidAt: null,
     readyAt: null,
     notifiedAt: null,
   };

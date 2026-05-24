@@ -18,7 +18,15 @@ export default async function OrderPage({
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
-      <ClearCartOnMount />
+      <ClearCartOnMount
+        lines={order.items.map((it) => ({
+          menuItemId: it.menuItemId,
+          name: it.name,
+          unitPriceCents: it.unitPriceCents,
+          quantity: it.quantity,
+          modifiers: it.modifiers,
+        }))}
+      />
       <div className="rounded-2xl bg-cream-2/50 border border-espresso/10 p-6">
         <div className="text-sm uppercase tracking-wider text-crema-2">
           Order #{order.id}
@@ -27,16 +35,20 @@ export default async function OrderPage({
           Thanks, {order.customerName.split(" ")[0]}!
         </h1>
         <p className="text-espresso/70 mt-2">
-          We&apos;re making your order at {config.businessAddress}. We&apos;ll text{" "}
-          {maskPhone(order.customerPhone)} when it&apos;s ready (~
-          {config.pickupEtaMinutes} min).
+          We&apos;re making your order at {config.businessAddress}. Walk in and
+          show your name ({order.customerName.split(" ")[0]}) at the counter.
         </p>
 
-        <OrderStatusPoll orderId={order.id} initial={{
-          status: order.status,
-          readyAt: order.readyAt,
-          notifiedAt: order.notifiedAt,
-        }} />
+        <OrderStatusPoll
+          orderId={order.id}
+          paidAt={order.paidAt}
+          pickupEtaMinutes={config.pickupEtaMinutes}
+          initial={{
+            status: order.status,
+            readyAt: order.readyAt,
+            notifiedAt: order.notifiedAt,
+          }}
+        />
       </div>
 
       <div className="mt-6 rounded-2xl border border-espresso/10 p-6">

@@ -148,7 +148,9 @@
       "Bash(/usr/bin/sips -Z 1600 -s format jpeg -s formatOptions 85 '/Users/mikebannoura/Dropbox/My Mac \\(MacBook-Pro-Mike.local\\)/Downloads/2026-05-09.webp' --out '/Users/mikebannoura/Claude/Cafe Delight/public/hero-shop.jpg')",
       "Bash(/usr/bin/sips -g pixelWidth -g pixelHeight '/Users/mikebannoura/Claude/Cafe Delight/public/hero-shop.jpg')",
       "Bash(/usr/bin/awk '{print $5, $9}')",
-      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hero: real shop photo replaces emoji gradient *)"
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hero: real shop photo replaces emoji gradient *)",
+      "Bash(/usr/bin/grep -n \"OrderStatusPoll\" \"/Users/mikebannoura/Claude/Cafe Delight/src/app/order/[id]/page.tsx\")",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Conversion lift batch: 5 features *)"
     ]
   }
 }
