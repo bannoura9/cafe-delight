@@ -6,6 +6,7 @@ import { config } from "@/lib/config";
 import { OrderStatusPoll } from "./OrderStatusPoll";
 import { ClearCartOnMount } from "@/components/ClearCartOnMount";
 import { ReviewPrompt } from "@/components/ReviewPrompt";
+import { TrackPurchase } from "./TrackPurchase";
 
 export default async function OrderPage({
   params,
@@ -27,6 +28,21 @@ export default async function OrderPage({
           modifiers: it.modifiers,
         }))}
       />
+      {order.status !== "pending_payment" && order.status !== "cancelled" ? (
+        <TrackPurchase
+          orderId={order.id}
+          totalCents={order.totalCents}
+          taxCents={order.taxCents}
+          tipCents={order.tipCents}
+          items={order.items.map((it) => ({
+            menuItemId: it.menuItemId,
+            name: it.name,
+            unitPriceCents: it.unitPriceCents,
+            quantity: it.quantity,
+            modifiers: it.modifiers,
+          }))}
+        />
+      ) : null}
       <div className="rounded-2xl bg-cream-2/50 border border-espresso/10 p-6">
         <div className="text-sm uppercase tracking-wider text-crema-2">
           Order #{order.id}

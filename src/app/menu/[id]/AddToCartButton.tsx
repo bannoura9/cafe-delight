@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cartStore";
 import type { MenuItem, Modifier, Size } from "@/lib/menu";
 import { formatMoney } from "@/lib/menu";
+import { trackAddToCart } from "@/lib/track";
 
 export function AddToCartButton({ item }: { item: MenuItem }) {
   const router = useRouter();
@@ -27,13 +28,15 @@ export function AddToCartButton({ item }: { item: MenuItem }) {
   const handleAdd = (goToCart: boolean) => {
     setBusy(true);
     const displayName = hasSizes ? `${item.name} (${size.label})` : item.name;
-    add({
+    const line = {
       menuItemId: item.id,
       name: displayName,
       unitPriceCents: size.priceCents,
       quantity: 1,
       modifiers: selected,
-    });
+    };
+    add(line);
+    trackAddToCart(line);
     if (goToCart) router.push("/cart");
     else {
       setTimeout(() => setBusy(false), 800);

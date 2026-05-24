@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { MenuItem, Modifier, Size } from "@/lib/menu";
 import { formatMoney, CATEGORY_EMOJI } from "@/lib/menu";
 import { useCart } from "@/lib/cartStore";
+import { trackAddToCart } from "@/lib/track";
 
 export function MenuItemCard({ item }: { item: MenuItem }) {
   const add = useCart((s) => s.add);
@@ -29,13 +30,15 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
 
   const handleAdd = () => {
     const displayName = hasSizes ? `${item.name} (${size.label})` : item.name;
-    add({
+    const line = {
       menuItemId: item.id,
       name: displayName,
       unitPriceCents: size.priceCents,
       quantity: 1,
       modifiers: selected,
-    });
+    };
+    add(line);
+    trackAddToCart(line);
     setSelected([]);
     setShowMods(false);
     setJustAdded(true);

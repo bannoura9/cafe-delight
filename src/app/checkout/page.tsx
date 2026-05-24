@@ -6,6 +6,7 @@ import { formatMoney } from "@/lib/menu";
 import { ClosedBanner } from "@/components/ClosedBanner";
 import { placeOrder, type CheckoutState } from "./actions";
 import { Upsell } from "./Upsell";
+import { trackBeginCheckout } from "@/lib/track";
 
 const TAX_RATE = 0.08;
 const TIP_PCT_OPTIONS = [0, 10, 15, 20, 25];
@@ -16,6 +17,14 @@ export default function CheckoutPage() {
 
   const lines = useCart((s) => s.lines);
   const subtotal = useCart((s) => s.subtotalCents());
+
+  // Fire GA4 begin_checkout once per cart-snapshot.
+  useEffect(() => {
+    if (!mounted || lines.length === 0) return;
+    trackBeginCheckout({ lines, valueCents: subtotal });
+    // Only fire once when the page first loads with items.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
 
   // tipMode: 'pct' picks one of the preset percentages; 'custom' uses a dollar amount.
   const [tipMode, setTipMode] = useState<"pct" | "custom">("pct");

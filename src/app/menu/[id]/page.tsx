@@ -12,6 +12,7 @@ import {
   menuItemMetaDescription,
 } from "@/lib/seo";
 import { AddToCartButton } from "./AddToCartButton";
+import { TrackView } from "./TrackView";
 
 export function generateStaticParams() {
   return MENU.map((m) => ({ id: m.id }));
@@ -70,6 +71,12 @@ export default async function MenuItemPage({
 
   return (
     <>
+      <TrackView
+        id={item.id}
+        name={item.name}
+        category={item.category}
+        priceCents={item.sizes[0].priceCents}
+      />
       <JsonLd data={menuItemPageLd(item)} />
       <JsonLd
         data={breadcrumbsLd([

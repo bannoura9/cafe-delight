@@ -185,7 +185,9 @@
       "Bash(/usr/bin/wc -l)",
       "Bash(/usr/bin/tr -d ' ')",
       "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Add 12 real product photos + 32 owner-supplied descriptions *)",
-      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Make menu card photos clickable → item detail page *)"
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Make menu card photos clickable → item detail page *)",
+      "Bash(/usr/bin/grep -rln \"text-espresso/60\" src --include=\"*.tsx\")",
+      "Bash(/usr/bin/head -20)"
     ]
   }
 }

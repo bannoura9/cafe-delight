@@ -47,29 +47,30 @@ export default function CartPage() {
                 </div>
               </div>
               {l.modifiers.length > 0 ? (
-                <div className="text-sm text-espresso/60 mt-0.5">
+                <div className="text-sm text-espresso/75 mt-0.5">
                   {l.modifiers.map((m) => m.name).join(" · ")}
                 </div>
               ) : null}
-              <div className="mt-2 flex items-center gap-2">
+              <div className="mt-3 flex items-center gap-3">
                 <button
                   onClick={() => setQuantity(l.lineId, l.quantity - 1)}
-                  className="w-7 h-7 rounded-full border border-espresso/20 hover:bg-cream"
-                  aria-label="Decrease"
+                  className="w-11 h-11 rounded-full border border-espresso/30 hover:bg-cream text-lg leading-none flex items-center justify-center"
+                  aria-label={`Decrease ${l.name} quantity`}
                 >
                   −
                 </button>
-                <span className="w-6 text-center tabular-nums">{l.quantity}</span>
+                <span className="w-8 text-center tabular-nums text-base font-medium">{l.quantity}</span>
                 <button
                   onClick={() => setQuantity(l.lineId, l.quantity + 1)}
-                  className="w-7 h-7 rounded-full border border-espresso/20 hover:bg-cream"
-                  aria-label="Increase"
+                  className="w-11 h-11 rounded-full border border-espresso/30 hover:bg-cream text-lg leading-none flex items-center justify-center"
+                  aria-label={`Increase ${l.name} quantity`}
                 >
                   +
                 </button>
                 <button
                   onClick={() => remove(l.lineId)}
-                  className="ml-3 text-sm text-espresso/60 hover:text-crema-2 underline underline-offset-2"
+                  className="ml-2 min-h-[44px] px-3 text-sm text-espresso/80 hover:text-crema-2 underline underline-offset-2"
+                  aria-label={`Remove ${l.name}`}
                 >
                   Remove
                 </button>
@@ -80,24 +81,27 @@ export default function CartPage() {
       </ul>
 
       <div className="mt-6 flex justify-between items-center">
-        <div className="text-sm text-espresso/70">Tax & tip calculated at checkout</div>
+        <div className="text-sm text-espresso/80">Tax & tip calculated at checkout</div>
         <div className="text-lg">
           Subtotal <span className="font-semibold tabular-nums">{formatMoney(subtotal)}</span>
         </div>
       </div>
 
-      <div className="mt-6 flex justify-end gap-3">
-        <Link
-          href="/menu"
-          className="rounded-full border border-espresso/20 px-5 py-2.5 hover:bg-cream-2"
-        >
-          Keep browsing
-        </Link>
+      <div className="mt-6 flex flex-col gap-3">
         <Link
           href="/checkout"
-          className="rounded-full bg-espresso text-cream px-5 py-2.5 font-medium hover:bg-espresso-2"
+          className="w-full rounded-full bg-espresso text-cream py-3.5 px-5 font-medium hover:bg-espresso-2 text-center min-h-[48px] flex items-center justify-center"
         >
           Checkout →
+        </Link>
+        <p className="text-center text-xs text-espresso/60">
+          🍎  Apple Pay · Google Pay · Samsung Pay · all major cards accepted
+        </p>
+        <Link
+          href="/menu"
+          className="w-full rounded-full border border-espresso/20 py-3 px-5 hover:bg-cream-2 text-center min-h-[44px] flex items-center justify-center"
+        >
+          Keep browsing
         </Link>
       </div>
     </div>
