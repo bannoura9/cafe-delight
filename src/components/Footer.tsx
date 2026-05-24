@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { hoursLabel } from "@/lib/hours";
 
 export function Footer() {
   return (
@@ -8,11 +7,13 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-8 grid gap-6 sm:grid-cols-4 text-sm text-espresso/80">
         <div>
           <div className="display text-lg text-espresso">{config.businessName}</div>
-          <div>{config.businessAddress}</div>
+          <div>9395 Crown Crest Blvd</div>
+          <div>Parker, CO 80138</div>
         </div>
         <div>
           <div className="font-medium text-espresso">Hours</div>
-          <div>{hoursLabel()}</div>
+          <div>Mon–Fri 7 AM – 3 PM</div>
+          <div>Sat &amp; Sun closed</div>
         </div>
         <div>
           <div className="font-medium text-espresso">Pickup</div>

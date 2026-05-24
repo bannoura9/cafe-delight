@@ -151,7 +151,11 @@
       "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hero: real shop photo replaces emoji gradient *)",
       "Bash(/usr/bin/grep -n \"OrderStatusPoll\" \"/Users/mikebannoura/Claude/Cafe Delight/src/app/order/[id]/page.tsx\")",
       "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Conversion lift batch: 5 features *)",
-      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Fix: createOrder type omits paidAt \\(which is set later by markOrderPaid\\)\")"
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Fix: createOrder type omits paidAt \\(which is set later by markOrderPaid\\)\")",
+      "Bash(/usr/bin/curl -s https://cafedelightco.com/)",
+      "Bash(/usr/bin/grep -oE 'Featured|Spanish Latte|Sweet[^\"<]*')",
+      "Bash(/usr/bin/head -5)",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Checkout polish: 8% tax, 25% tip, custom tip, disabled when closed *)"
     ]
   }
 }
