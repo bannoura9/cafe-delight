@@ -180,7 +180,11 @@
       "Bash(/usr/bin/grep -iE \"x-robots|x-vercel-cache|cache-control\")",
       "Bash(/usr/bin/curl -sI -A \"Googlebot\" https://cafedelightco.com/)",
       "Bash(/usr/bin/head -30)",
-      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'CRITICAL: narrow Clerk matcher to fix sitewide noindex *)"
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'CRITICAL: narrow Clerk matcher to fix sitewide noindex *)",
+      "Bash(/bin/ls -la '/Users/mikebannoura/Dropbox/My Mac \\(MacBook-Pro-Mike.local\\)/Downloads/drive-download-20260524T175845Z-3-001')",
+      "Bash(/usr/bin/wc -l)",
+      "Bash(/usr/bin/tr -d ' ')",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Add 12 real product photos + 32 owner-supplied descriptions *)"
     ]
   }
 }
