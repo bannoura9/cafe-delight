@@ -3,6 +3,9 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-ZY8TP9QDJM";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCart } from "@/components/FloatingCart";
@@ -72,6 +75,7 @@ export default function RootLayout({
           <FloatingCart />
           <Analytics />
           <SpeedInsights />
+          {process.env.NODE_ENV === "production" ? <GoogleAnalytics gaId={GA_ID} /> : null}
         </body>
       </html>
     </ClerkProvider>
