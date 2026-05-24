@@ -176,7 +176,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "spanish-latte",
-    image: u("photo-1542367592-8849eb950fd8"),
+    image: "/menu/spanish-latte.jpg",
     name: "Spanish Latte",
     category: "Signature Lattes",
     sizes: sizesSL(500, 550),
@@ -186,7 +186,7 @@ export const MENU: MenuItem[] = [
   // ── Coffee ──
   {
     id: "drip-coffee",
-    image: u("photo-1495474472287-4d71bcdd2085"),
+    image: "/menu/drip-coffee.jpg",
     name: "Drip Coffee",
     category: "Coffee",
     sizes: sizesSL(275, 300),
@@ -194,7 +194,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-brew",
-    image: u("photo-1461023058943-07fcbe16d735"),
+    image: "/menu/nitro-brew.jpg",
     name: "Nitro Brew Coffee",
     category: "Coffee",
     sizes: sizesSL(500, 600),
@@ -202,7 +202,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-cold-foam",
-    image: u("photo-1481833761820-0509d3217039"),
+    image: "/menu/nitro-cold-foam.jpg",
     name: "Nitro w/ Cold Foam",
     category: "Coffee",
     sizes: sizesSL(550, 650),
@@ -212,7 +212,7 @@ export const MENU: MenuItem[] = [
   // ── Gelato ──
   {
     id: "gelato",
-    image: u("photo-1525385133512-2f3bdd039054"),
+    image: "/menu/gelato.jpg",
     name: "Gelato",
     description: "Ask the barista for today's flavors.",
     category: "Gelato",
@@ -234,7 +234,7 @@ export const MENU: MenuItem[] = [
   // ── Tea ──
   {
     id: "chai-tea-latte",
-    image: u("photo-1571091655789-405eb7a3a3a8"),
+    image: "/menu/chai-tea-latte.jpg",
     name: "Chai Tea Latte",
     category: "Tea",
     sizes: sizesSL(450, 500),
@@ -242,7 +242,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-tea-latte",
-    image: u("photo-1536256263959-770b48d82b0a"),
+    image: "/menu/matcha-tea-latte.jpg",
     name: "Matcha Tea Latte",
     category: "Tea",
     sizes: sizesSL(450, 500),
@@ -250,7 +250,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "hot-tea",
-    image: u("photo-1576092768241-dec231879fc3"),
+    image: "/menu/hot-tea.jpg",
     name: "Hot Tea",
     description: "Ask for today's selection.",
     category: "Tea",
@@ -259,7 +259,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "london-fog",
-    image: u("photo-1473923377535-0002805f57e8"),
+    image: "/menu/london-fog.jpg",
     name: "London Fog",
     description: "Earl grey, vanilla, steamed milk.",
     category: "Tea",
@@ -268,7 +268,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-chai",
-    image: u("photo-1546549032-9571cd6b27df"),
+    image: "/menu/matcha-chai.jpg",
     name: "Matcha Chai",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -276,7 +276,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "strawberry-matcha",
-    image: u("photo-1565299585323-38d6b0865b47"),
+    image: "/menu/strawberry-matcha.jpg",
     name: "Strawberry Matcha",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -284,7 +284,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "raspberry-matcha",
-    image: u("photo-1551030173-122aabc4489c"),
+    image: "/menu/raspberry-matcha.jpg",
     name: "Raspberry Matcha",
     category: "Tea",
     sizes: sizesSL(500, 550),
@@ -294,7 +294,7 @@ export const MENU: MenuItem[] = [
   // ── Boba ──
   {
     id: "boba-caramel-macchiato",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-caramel-macchiato.jpg",
     name: "Caramel Macchiato Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -302,7 +302,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-white-mocha",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-white-mocha.jpg",
     name: "White Mocha Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -310,7 +310,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-shaken-espresso",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-shaken-espresso.jpg",
     name: "Shaken Espresso Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -318,7 +318,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-spanish-latte",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-spanish-latte.jpg",
     name: "Spanish Latte Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -326,7 +326,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-pumpkin-spice",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-pumpkin-spice.jpg",
     name: "Pumpkin Spice Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -334,7 +334,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-honey-chai",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-honey-chai.jpg",
     name: "Honey Chai Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -342,7 +342,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-matcha-tea",
-    image: u("photo-1541696490-8744a5dc0228"),
+    image: "/menu/boba-matcha-tea.jpg",
     name: "Matcha Tea Boba",
     category: "Boba",
     sizes: sizeOne(600),
@@ -359,28 +359,28 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "soda-strawberry",
-    image: u("photo-1597318181409-cf64d0b5d8a2"),
+    image: "/menu/soda-strawberry.jpg",
     name: "Strawberry Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(400),
   },
   {
     id: "soda-raspberry",
-    image: u("photo-1597318181409-cf64d0b5d8a2"),
+    image: "/menu/soda-raspberry.jpg",
     name: "Raspberry Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(400),
   },
   {
     id: "soda-cream",
-    image: u("photo-1517256673644-36ad11246d21"),
+    image: "/menu/soda-cream.jpg",
     name: "Italian Soda w/ Cream",
     category: "Refreshing Drinks",
     sizes: sizeOne(425),
   },
   {
     id: "soda-redbull",
-    image: u("photo-1593504049359-74330189a345"),
+    image: "/menu/soda-redbull.jpg",
     name: "Red Bull Italian Soda",
     category: "Refreshing Drinks",
     sizes: sizeOne(500),

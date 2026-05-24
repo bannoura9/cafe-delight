@@ -104,7 +104,13 @@
       "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Production polish: legal pages, Clerk auth, Resend emails, analytics, tax env *)",
       "Bash(curl -sL -o /dev/null -w \"final=%{url_effective} status=%{http_code}\\\\n\" https://cafedelightco.com/admin)",
       "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Drop Twilio, use email-only for '\\\\''order ready'\\\\'' notifications *)",
-      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Home page: drop '\\\\''we text you'\\\\'' line, lead with quick pickup *)"
+      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Home page: drop '\\\\''we text you'\\\\'' line, lead with quick pickup *)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Use real product photos for 23 menu items *)",
+      "Bash(rm public/menu/*.png)",
+      "Bash(mv /tmp/menu-compress/*.jpg public/menu/)",
+      "Bash(rmdir /tmp/menu-compress)",
+      "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit --amend --no-edit)"
     ]
   }
 }
