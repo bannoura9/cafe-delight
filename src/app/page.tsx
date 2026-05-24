@@ -2,11 +2,14 @@ import Link from "next/link";
 import { config } from "@/lib/config";
 import { isOpenNow, hoursLabel } from "@/lib/hours";
 import { HeroCartButton } from "@/components/HeroCartButton";
+import { JsonLd } from "@/components/JsonLd";
+import { localBusinessLd } from "@/lib/seo";
 
 export default function HomePage() {
   const open = isOpenNow();
   return (
     <div>
+      <JsonLd data={localBusinessLd()} />
       <section className="max-w-6xl mx-auto px-4 pt-16 pb-12 grid gap-10 md:grid-cols-2 md:items-center">
         <div>
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-crema-2 mb-4">

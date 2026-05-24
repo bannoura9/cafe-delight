@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { MenuItem, Modifier, Size } from "@/lib/menu";
 import { formatMoney, CATEGORY_EMOJI } from "@/lib/menu";
 import { useCart } from "@/lib/cartStore";
@@ -62,7 +63,9 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
         <div>
           <div className="flex items-baseline justify-between gap-3">
             <h3 className="font-semibold text-espresso leading-tight">
-              {item.name}
+              <Link href={`/menu/${item.id}`} className="hover:text-crema-2">
+                {item.name}
+              </Link>
             </h3>
             <span className="text-espresso/80 tabular-nums whitespace-nowrap">
               {formatMoney(currentPrice)}

@@ -110,7 +110,10 @@
       "Bash(rm public/menu/*.png)",
       "Bash(mv /tmp/menu-compress/*.jpg public/menu/)",
       "Bash(rmdir /tmp/menu-compress)",
-      "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit --amend --no-edit)"
+      "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit --amend --no-edit)",
+      "Bash(sort -k5 -n -r)",
+      "Bash(awk '{printf \"%8d  %s\\\\n\", $5, $9}')",
+      "Bash(git -c http.postBuffer=524288000 push origin master)"
     ]
   }
 }

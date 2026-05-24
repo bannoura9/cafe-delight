@@ -20,10 +20,13 @@ export function Footer() {
           <div>Walk in, grab, go</div>
         </div>
         <div>
-          <div className="font-medium text-espresso">Legal</div>
+          <div className="font-medium text-espresso">Explore</div>
           <ul className="space-y-0.5">
-            <li><Link href="/legal/terms" className="hover:text-crema-2">Terms of Service</Link></li>
-            <li><Link href="/legal/privacy" className="hover:text-crema-2">Privacy Policy</Link></li>
+            <li><Link href="/menu" className="hover:text-crema-2">Menu</Link></li>
+            <li><Link href="/about" className="hover:text-crema-2">About</Link></li>
+            <li><Link href="/faq" className="hover:text-crema-2">FAQ</Link></li>
+            <li><Link href="/legal/terms" className="hover:text-crema-2">Terms</Link></li>
+            <li><Link href="/legal/privacy" className="hover:text-crema-2">Privacy</Link></li>
           </ul>
         </div>
       </div>

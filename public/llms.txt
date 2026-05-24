@@ -1,0 +1,43 @@
+# Café Delight
+
+> Locally-owned coffee shop in Parker, Colorado serving espresso, signature lattes, boba, matcha, gelato, and italian sodas. Order online with secure card payment, pick up in ~5 minutes.
+
+## Location
+- 9395 Crown Crest Blvd, Parker, CO 80138
+- Phone: (720) 201-7193
+
+## Hours
+- Monday – Friday: 7 AM – 3 PM (Mountain Time)
+- Saturday & Sunday: closed
+
+## What we serve
+- **Espresso drinks:** Espresso Shot, Americano, Cortado, Latte, Breve Latte, Honey Latte
+- **Signature Lattes:** Pumpkin Spice, Chocolate Mocha, White Mocha, Raspberry White Mocha, Caramel Macchiato, Shaken Espresso, Tiramisu Latte, Spanish Latte
+- **Coffee:** Drip Coffee, Nitro Brew, Nitro w/ Cold Foam
+- **Tea & Matcha:** Chai Tea Latte, Matcha Tea Latte, Hot Tea, London Fog, Matcha Chai, Strawberry Matcha, Raspberry Matcha
+- **Boba (all $6):** Caramel Macchiato, White Mocha, Shaken Espresso, Spanish Latte, Pumpkin Spice, Honey Chai, Matcha Tea
+- **Italian Sodas:** Passionfruit, Strawberry, Raspberry, w/ Cream, Red Bull
+- **Gelato & Affogato**
+
+## Customization
+- Milk substitutions (+$0.50): oat, almond, soy, coconut
+- Flavor shots (+$0.50): vanilla, caramel, hazelnut, almond, irish cream, pistachio, coconut, salted caramel, peppermint, lavender, raspberry, tiramisu, pumpkin spice
+
+## How to order online
+1. Visit https://cafedelightco.com
+2. Browse the menu, pick a drink, customize size and add-ons
+3. Check out — pay with card, Apple Pay, Google Pay, or Samsung Pay
+4. Walk in within ~5 minutes — your name is on the order
+
+## Payment
+- All major credit/debit cards
+- Apple Pay, Google Pay, Samsung Pay
+- Payment processed securely by Clover (PCI-compliant hosted checkout)
+- Cash accepted in-store only
+
+## Key links
+- [Menu](https://cafedelightco.com/menu)
+- [About](https://cafedelightco.com/about)
+- [FAQ](https://cafedelightco.com/faq)
+- [Terms of Service](https://cafedelightco.com/legal/terms)
+- [Privacy Policy](https://cafedelightco.com/legal/privacy)
