@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { config } from "@/lib/config";
 import { isOpenNow, hoursLabel } from "@/lib/hours";
 import { HeroCartButton } from "@/components/HeroCartButton";
@@ -36,10 +37,15 @@ export default function HomePage() {
             <HeroCartButton />
           </div>
         </div>
-        <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-crema/40 to-espresso/30 overflow-hidden relative">
-          <div className="absolute inset-0 flex items-center justify-center text-9xl">
-            ☕
-          </div>
+        <div className="relative aspect-[4/3] md:aspect-[4/5] rounded-3xl overflow-hidden bg-cream-2 shadow-sm">
+          <Image
+            src="/hero-shop.jpg"
+            alt={`Inside ${config.businessName} in Parker, CO`}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            priority
+            className="object-cover"
+          />
         </div>
       </section>
 

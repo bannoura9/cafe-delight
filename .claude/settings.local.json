@@ -140,7 +140,15 @@
       "Bash(/usr/bin/rm -f src/components/OpenStatusBar.tsx)",
       "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Header: small open/closed dot under nav; remove banner; fix about copy *)",
       "Bash(/bin/rm -f src/components/OpenStatusBar.tsx)",
-      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Delete now-unused OpenStatusBar component\")"
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit -q -m \"Delete now-unused OpenStatusBar component\")",
+      "Bash(/usr/bin/find \"/Users/mikebannoura/Claude/Cafe Delight\" -name \"*.jpg\" -o -name \"*.jpeg\" -o -name \"*.png\" -o -name \"*.heic\")",
+      "Bash(/usr/bin/grep -viE \"\\(public/menu|public/logo|src/app/icon|node_modules|.next\\)\")",
+      "Bash(/usr/bin/head -10)",
+      "Bash(/usr/bin/find \"/Users/mikebannoura/Dropbox\" \"/Users/mikebannoura/Desktop\" -maxdepth 4 -name \"*.jpg\" -o -name \"*.jpeg\" -o -name \"*.png\" -newer /tmp -mtime -1)",
+      "Bash(/usr/bin/sips -Z 1600 -s format jpeg -s formatOptions 85 '/Users/mikebannoura/Dropbox/My Mac \\(MacBook-Pro-Mike.local\\)/Downloads/2026-05-09.webp' --out '/Users/mikebannoura/Claude/Cafe Delight/public/hero-shop.jpg')",
+      "Bash(/usr/bin/sips -g pixelWidth -g pixelHeight '/Users/mikebannoura/Claude/Cafe Delight/public/hero-shop.jpg')",
+      "Bash(/usr/bin/awk '{print $5, $9}')",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Hero: real shop photo replaces emoji gradient *)"
     ]
   }
 }
