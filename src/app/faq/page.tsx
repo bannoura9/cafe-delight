@@ -93,10 +93,15 @@ export default function FaqPage() {
         <ul className="space-y-5">
           {FAQS.map((f, i) => (
             <li key={i}>
-              <details className="rounded-2xl border border-espresso/10 bg-cream-2/30 p-4 [&[open]_summary_span]:rotate-180">
-                <summary className="flex justify-between items-center cursor-pointer list-none">
+              <details className="group rounded-2xl border border-espresso/10 bg-cream-2/30 p-4">
+                <summary className="flex justify-between items-center cursor-pointer list-none gap-4">
                   <span className="font-medium text-espresso">{f.q}</span>
-                  <span className="text-crema-2 transition-transform">▾</span>
+                  <span
+                    aria-hidden
+                    className="shrink-0 text-crema-2 transition-transform group-open:rotate-180"
+                  >
+                    ▾
+                  </span>
                 </summary>
                 <p className="text-espresso/80 leading-relaxed mt-3">{f.a}</p>
               </details>

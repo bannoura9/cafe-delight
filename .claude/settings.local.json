@@ -133,7 +133,9 @@
       "Bash(/usr/bin/tail -10)",
       "Bash(/usr/bin/git add *)",
       "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'UX polish: open/closed bar, hot/cold filter, square photos *)",
-      "Bash(/usr/bin/git push *)"
+      "Bash(/usr/bin/git push *)",
+      "Bash(/usr/bin/tail -5)",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'Add post-order review prompt + fix upside-down FAQ text *)"
     ]
   }
 }

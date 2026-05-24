@@ -5,6 +5,7 @@ import { formatMoney } from "@/lib/menu";
 import { config } from "@/lib/config";
 import { OrderStatusPoll } from "./OrderStatusPoll";
 import { ClearCartOnMount } from "@/components/ClearCartOnMount";
+import { ReviewPrompt } from "@/components/ReviewPrompt";
 
 export default async function OrderPage({
   params,
@@ -64,6 +65,15 @@ export default async function OrderPage({
           <Row label="Total" value={formatMoney(order.totalCents)} bold />
         </div>
       </div>
+
+      {order.status !== "pending_payment" && order.status !== "cancelled" ? (
+        <ReviewPrompt
+          orderId={order.id}
+          customerName={order.customerName}
+          feedbackEmail={config.feedbackEmail}
+          googleReviewUrl={config.googleReviewUrl}
+        />
+      ) : null}
 
       <div className="mt-6 text-center">
         <Link href="/menu" className="text-sm underline underline-offset-4">
