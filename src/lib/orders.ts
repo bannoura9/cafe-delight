@@ -87,7 +87,7 @@ function rowToOrder(row: OrderRow, items: OrderItem[]): Order {
 export async function createOrder(
   input: Omit<
     Order,
-    "id" | "status" | "createdAt" | "readyAt" | "notifiedAt" | "cloverOrderId"
+    "id" | "status" | "createdAt" | "paidAt" | "readyAt" | "notifiedAt" | "cloverOrderId"
   > & { cloverOrderId: string | null },
 ): Promise<Order> {
   const id = randomUUID().slice(0, 8);
