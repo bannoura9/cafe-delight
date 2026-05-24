@@ -17,7 +17,7 @@ export function Footer() {
         <div>
           <div className="font-medium text-espresso">Pickup</div>
           <div>Ready in ~{config.pickupEtaMinutes} minutes</div>
-          <div>Email when ready</div>
+          <div>Walk in, grab, go</div>
         </div>
         <div>
           <div className="font-medium text-espresso">Legal</div>

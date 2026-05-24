@@ -4,7 +4,7 @@ export const config = {
   businessAddress:
     process.env.BUSINESS_ADDRESS ?? "9395 Crown Crest Blvd, Parker, CO 80138",
   businessPhone: process.env.BUSINESS_PHONE ?? "",
-  pickupEtaMinutes: Number(process.env.PICKUP_ETA_MINUTES ?? 12),
+  pickupEtaMinutes: Number(process.env.PICKUP_ETA_MINUTES ?? 5),
   taxRate: Number(process.env.TAX_RATE ?? 0.0775),
   adminPassword: process.env.ADMIN_PASSWORD ?? "letmein",
   clover: {

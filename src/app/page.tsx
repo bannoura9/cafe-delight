@@ -44,7 +44,10 @@ export default function HomePage() {
         {[
           { t: "Order online", d: "Browse menu, customize, pay securely." },
           { t: "We make it", d: "Order prints in our shop the moment you pay." },
-          { t: "We text you", d: "SMS the moment your order is ready." },
+          {
+            t: "Quick pickup",
+            d: `Ready in about ${config.pickupEtaMinutes} minutes. Walk in, grab, go.`,
+          },
         ].map((s, i) => (
           <div
             key={s.t}
