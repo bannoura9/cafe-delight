@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { OpenStatusBar } from "@/components/OpenStatusBar";
 import { config } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo";
 
@@ -66,7 +65,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="min-h-dvh flex flex-col">
-          <OpenStatusBar />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -62,7 +62,7 @@ export default function AboutPage() {
         <p>
           {config.businessAddress}
           <br />
-          Right off E-470, easy parking, drive-thru-friendly walk-up.
+          Ground level, next to the cafeteria. Easy parking right outside.
         </p>
       </article>
     </>
