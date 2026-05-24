@@ -47,21 +47,23 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
       data-temperature={item.temperature}
       className="group rounded-2xl bg-cream-2/40 border border-espresso/5 overflow-hidden hover:shadow-sm transition flex flex-col"
     >
-      {item.image ? (
-        <div className="relative aspect-[4/5] bg-cream-2">
-          <Image
-            src={item.image}
-            alt={item.name}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : (
-        <div className="aspect-[4/5] bg-gradient-to-br from-crema/25 to-espresso/15 flex items-center justify-center text-6xl">
-          <span aria-hidden>{CATEGORY_EMOJI[item.category]}</span>
-        </div>
-      )}
+      <Link href={`/menu/${item.id}`} className="block group/img">
+        {item.image ? (
+          <div className="relative aspect-[4/5] bg-cream-2 overflow-hidden">
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform group-hover/img:scale-[1.03]"
+            />
+          </div>
+        ) : (
+          <div className="aspect-[4/5] bg-gradient-to-br from-crema/25 to-espresso/15 flex items-center justify-center text-6xl">
+            <span aria-hidden>{CATEGORY_EMOJI[item.category]}</span>
+          </div>
+        )}
+      </Link>
       <div className="p-4 flex flex-col flex-1 gap-3">
         <div>
           <div className="flex items-baseline justify-between gap-3">
