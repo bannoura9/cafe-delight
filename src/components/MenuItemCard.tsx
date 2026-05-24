@@ -43,9 +43,12 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
   };
 
   return (
-    <article className="group rounded-2xl bg-cream-2/40 border border-espresso/5 overflow-hidden hover:shadow-sm transition flex flex-col">
+    <article
+      data-temperature={item.temperature}
+      className="group rounded-2xl bg-cream-2/40 border border-espresso/5 overflow-hidden hover:shadow-sm transition flex flex-col"
+    >
       {item.image ? (
-        <div className="relative aspect-[4/3] bg-cream-2">
+        <div className="relative aspect-square bg-cream-2">
           <Image
             src={item.image}
             alt={item.name}
@@ -55,7 +58,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
           />
         </div>
       ) : (
-        <div className="aspect-[4/3] bg-gradient-to-br from-crema/25 to-espresso/15 flex items-center justify-center text-6xl">
+        <div className="aspect-square bg-gradient-to-br from-crema/25 to-espresso/15 flex items-center justify-center text-6xl">
           <span aria-hidden>{CATEGORY_EMOJI[item.category]}</span>
         </div>
       )}

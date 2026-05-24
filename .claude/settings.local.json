@@ -113,7 +113,27 @@
       "Bash(git -c user.email=mikebannoura@gmail.com -c user.name=\"Mike Bannoura\" commit --amend --no-edit)",
       "Bash(sort -k5 -n -r)",
       "Bash(awk '{printf \"%8d  %s\\\\n\", $5, $9}')",
-      "Bash(git -c http.postBuffer=524288000 push origin master)"
+      "Bash(git -c http.postBuffer=524288000 push origin master)",
+      "Bash(curl -s https://cafedelightco.com/)",
+      "Bash(vercel dns *)",
+      "Bash(dig +short TXT cafedelightco.com)",
+      "Bash(dig +short TXT cafedelightco.com @8.8.8.8)",
+      "Bash(/usr/bin/curl -sI https://cafedelightco.com/)",
+      "Bash(/usr/bin/curl -s -o /dev/null -w '  drip-coffee.jpg: %{http_code} %{content_type} %{size_download}b\\\\n' 'https://cafedelightco.com/_next/image?url=%2Fmenu%2Fdrip-coffee.jpg&w=640&q=75')",
+      "Bash(/usr/bin/curl -s https://cafedelightco.com/menu/latte)",
+      "Bash(/usr/bin/grep -oE 'src=\"/_next/image[^\"]*\"')",
+      "Bash(/usr/bin/head -1)",
+      "Bash(/usr/bin/sed 's/&amp;/\\\\&/g;s/^src=\"//;s/\"$//')",
+      "Bash(/usr/local/bin/node --input-type=module -e ' *)",
+      "Bash(/usr/local/bin/vercel env *)",
+      "Bash(/usr/bin/grep -E \"CLOVER|CLERK|MOCK|BYPASS|NEXT_PUBLIC|RESEND|TAX|DATABASE\")",
+      "Bash(/usr/bin/awk '{print \"  \"$1}')",
+      "Bash(/usr/bin/tail -3)",
+      "Bash(/usr/local/bin/npx tsc *)",
+      "Bash(/usr/bin/tail -10)",
+      "Bash(/usr/bin/git add *)",
+      "Bash(/usr/bin/git -c user.email=mikebannoura@gmail.com -c 'user.name=Mike Bannoura' commit -q -m 'UX polish: open/closed bar, hot/cold filter, square photos *)",
+      "Bash(/usr/bin/git push *)"
     ]
   }
 }

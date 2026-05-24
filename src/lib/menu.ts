@@ -19,6 +19,8 @@ export type Category =
   | "Boba"
   | "Refreshing Drinks";
 
+export type Temperature = "hot" | "cold" | "either";
+
 export type MenuItem = {
   id: string;
   name: string;
@@ -27,6 +29,7 @@ export type MenuItem = {
   sizes: Size[];
   modifiers?: Modifier[];
   image?: string;
+  temperature: Temperature;
 };
 
 const u = (id: string) =>
@@ -69,6 +72,7 @@ export const MENU: MenuItem[] = [
   // ── Espresso ──
   {
     id: "espresso-shot",
+    temperature: "hot",
     image: u("photo-1521305916504-4a1121188589"),
     name: "Espresso Shot",
     category: "Espresso",
@@ -77,6 +81,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "americano",
+    temperature: "either",
     image: u("photo-1485808191679-5f86510681a2"),
     name: "Americano",
     category: "Espresso",
@@ -85,6 +90,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "cortado",
+    temperature: "hot",
     image: u("photo-1572442388796-11668a67e53d"),
     name: "Cortado",
     category: "Espresso",
@@ -93,6 +99,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "latte",
+    temperature: "either",
     image: u("photo-1561882468-9110e03e0f78"),
     name: "Latte",
     category: "Espresso",
@@ -101,6 +108,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "breve-latte",
+    temperature: "hot",
     image: u("photo-1556679343-c7306c1976bc"),
     name: "Breve Latte",
     description: "Made with steamed half & half.",
@@ -110,6 +118,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "honey-latte",
+    temperature: "either",
     image: u("photo-1546039907-7fa05f864c02"),
     name: "Honey Latte",
     category: "Espresso",
@@ -120,6 +129,7 @@ export const MENU: MenuItem[] = [
   // ── Signature Lattes ──
   {
     id: "pumpkin-spice-latte",
+    temperature: "either",
     image: u("photo-1577805947697-89e18249d767"),
     name: "Pumpkin Spice Latte",
     category: "Signature Lattes",
@@ -128,6 +138,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "chocolate-mocha",
+    temperature: "either",
     image: u("photo-1497636577773-f1231844b336"),
     name: "Chocolate Mocha",
     category: "Signature Lattes",
@@ -136,6 +147,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "white-mocha",
+    temperature: "either",
     image: u("photo-1502462041640-b3d7e50d0662"),
     name: "White Mocha",
     category: "Signature Lattes",
@@ -144,6 +156,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "raspberry-white-mocha",
+    temperature: "either",
     image: u("photo-1442512595331-e89e73853f31"),
     name: "Raspberry White Mocha",
     category: "Signature Lattes",
@@ -152,6 +165,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "caramel-macchiato",
+    temperature: "either",
     image: u("photo-1488477181946-6428a0291777"),
     name: "Caramel Macchiato",
     category: "Signature Lattes",
@@ -160,6 +174,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "shaken-espresso",
+    temperature: "cold",
     image: u("photo-1517959105821-eaf2591984ca"),
     name: "Shaken Espresso",
     category: "Signature Lattes",
@@ -168,6 +183,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "tiramisu-latte",
+    temperature: "either",
     image: u("photo-1530373239216-42518e6b4063"),
     name: "Tiramisu Latte",
     category: "Signature Lattes",
@@ -176,6 +192,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "spanish-latte",
+    temperature: "either",
     image: "/menu/spanish-latte.jpg",
     name: "Spanish Latte",
     category: "Signature Lattes",
@@ -186,6 +203,7 @@ export const MENU: MenuItem[] = [
   // ── Coffee ──
   {
     id: "drip-coffee",
+    temperature: "hot",
     image: "/menu/drip-coffee.jpg",
     name: "Drip Coffee",
     category: "Coffee",
@@ -194,6 +212,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-brew",
+    temperature: "cold",
     image: "/menu/nitro-brew.jpg",
     name: "Nitro Brew Coffee",
     category: "Coffee",
@@ -202,6 +221,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "nitro-cold-foam",
+    temperature: "cold",
     image: "/menu/nitro-cold-foam.jpg",
     name: "Nitro w/ Cold Foam",
     category: "Coffee",
@@ -212,6 +232,7 @@ export const MENU: MenuItem[] = [
   // ── Gelato ──
   {
     id: "gelato",
+    temperature: "cold",
     image: "/menu/gelato.jpg",
     name: "Gelato",
     description: "Ask the barista for today's flavors.",
@@ -224,6 +245,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "affogato",
+    temperature: "either",
     image: u("photo-1568901346375-23c9450c58cd"),
     name: "Affogato",
     description: "A scoop of gelato drowned in a fresh espresso shot.",
@@ -234,6 +256,7 @@ export const MENU: MenuItem[] = [
   // ── Tea ──
   {
     id: "chai-tea-latte",
+    temperature: "either",
     image: "/menu/chai-tea-latte.jpg",
     name: "Chai Tea Latte",
     category: "Tea",
@@ -242,6 +265,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-tea-latte",
+    temperature: "either",
     image: "/menu/matcha-tea-latte.jpg",
     name: "Matcha Tea Latte",
     category: "Tea",
@@ -250,6 +274,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "hot-tea",
+    temperature: "hot",
     image: "/menu/hot-tea.jpg",
     name: "Hot Tea",
     description: "Ask for today's selection.",
@@ -259,6 +284,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "london-fog",
+    temperature: "hot",
     image: "/menu/london-fog.jpg",
     name: "London Fog",
     description: "Earl grey, vanilla, steamed milk.",
@@ -268,6 +294,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "matcha-chai",
+    temperature: "either",
     image: "/menu/matcha-chai.jpg",
     name: "Matcha Chai",
     category: "Tea",
@@ -276,6 +303,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "strawberry-matcha",
+    temperature: "cold",
     image: "/menu/strawberry-matcha.jpg",
     name: "Strawberry Matcha",
     category: "Tea",
@@ -284,6 +312,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "raspberry-matcha",
+    temperature: "cold",
     image: "/menu/raspberry-matcha.jpg",
     name: "Raspberry Matcha",
     category: "Tea",
@@ -294,6 +323,7 @@ export const MENU: MenuItem[] = [
   // ── Boba ──
   {
     id: "boba-caramel-macchiato",
+    temperature: "cold",
     image: "/menu/boba-caramel-macchiato.jpg",
     name: "Caramel Macchiato Boba",
     category: "Boba",
@@ -302,6 +332,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-white-mocha",
+    temperature: "cold",
     image: "/menu/boba-white-mocha.jpg",
     name: "White Mocha Boba",
     category: "Boba",
@@ -310,6 +341,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-shaken-espresso",
+    temperature: "cold",
     image: "/menu/boba-shaken-espresso.jpg",
     name: "Shaken Espresso Boba",
     category: "Boba",
@@ -318,6 +350,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-spanish-latte",
+    temperature: "cold",
     image: "/menu/boba-spanish-latte.jpg",
     name: "Spanish Latte Boba",
     category: "Boba",
@@ -326,6 +359,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-pumpkin-spice",
+    temperature: "cold",
     image: "/menu/boba-pumpkin-spice.jpg",
     name: "Pumpkin Spice Boba",
     category: "Boba",
@@ -334,6 +368,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-honey-chai",
+    temperature: "cold",
     image: "/menu/boba-honey-chai.jpg",
     name: "Honey Chai Boba",
     category: "Boba",
@@ -342,6 +377,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "boba-matcha-tea",
+    temperature: "cold",
     image: "/menu/boba-matcha-tea.jpg",
     name: "Matcha Tea Boba",
     category: "Boba",
@@ -352,6 +388,7 @@ export const MENU: MenuItem[] = [
   // ── Refreshing Drinks ──
   {
     id: "soda-passionfruit",
+    temperature: "cold",
     image: u("photo-1597318181409-cf64d0b5d8a2"),
     name: "Passionfruit Italian Soda",
     category: "Refreshing Drinks",
@@ -359,6 +396,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "soda-strawberry",
+    temperature: "cold",
     image: "/menu/soda-strawberry.jpg",
     name: "Strawberry Italian Soda",
     category: "Refreshing Drinks",
@@ -366,6 +404,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "soda-raspberry",
+    temperature: "cold",
     image: "/menu/soda-raspberry.jpg",
     name: "Raspberry Italian Soda",
     category: "Refreshing Drinks",
@@ -373,6 +412,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "soda-cream",
+    temperature: "cold",
     image: "/menu/soda-cream.jpg",
     name: "Italian Soda w/ Cream",
     category: "Refreshing Drinks",
@@ -380,6 +420,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "soda-redbull",
+    temperature: "cold",
     image: "/menu/soda-redbull.jpg",
     name: "Red Bull Italian Soda",
     category: "Refreshing Drinks",
