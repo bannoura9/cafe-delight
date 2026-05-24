@@ -12,11 +12,6 @@ export const config = {
     apiToken: process.env.CLOVER_API_TOKEN ?? "",
     environment: process.env.CLOVER_ENVIRONMENT ?? "sandbox",
   },
-  twilio: {
-    accountSid: process.env.TWILIO_ACCOUNT_SID ?? "",
-    authToken: process.env.TWILIO_AUTH_TOKEN ?? "",
-    fromNumber: process.env.TWILIO_FROM_NUMBER ?? "",
-  },
   resend: {
     apiKey: process.env.RESEND_API_KEY ?? "",
     fromEmail: process.env.RESEND_FROM_EMAIL ?? "",

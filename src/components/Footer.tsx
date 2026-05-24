@@ -17,14 +17,13 @@ export function Footer() {
         <div>
           <div className="font-medium text-espresso">Pickup</div>
           <div>Ready in ~{config.pickupEtaMinutes} minutes</div>
-          <div>SMS when ready</div>
+          <div>Email when ready</div>
         </div>
         <div>
           <div className="font-medium text-espresso">Legal</div>
           <ul className="space-y-0.5">
             <li><Link href="/legal/terms" className="hover:text-crema-2">Terms of Service</Link></li>
             <li><Link href="/legal/privacy" className="hover:text-crema-2">Privacy Policy</Link></li>
-            <li><Link href="/legal/sms" className="hover:text-crema-2">SMS Terms</Link></li>
           </ul>
         </div>
       </div>

@@ -1,13 +1,12 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { listOrders } from "@/lib/orders";
-import { getSmsLog } from "@/lib/sms";
 import { formatMoney } from "@/lib/menu";
 import { MarkReadyButton } from "./MarkReadyButton";
 
 export default async function AdminPage() {
   const user = await currentUser();
-  const [orders, sms] = await Promise.all([listOrders(), getSmsLog(8)]);
+  const orders = await listOrders();
 
   const displayName =
     user?.firstName ??
@@ -72,27 +71,6 @@ export default async function AdminPage() {
         )}
       </section>
 
-      <section>
-        <h2 className="font-semibold text-espresso mb-3">Recent SMS</h2>
-        {sms.length === 0 ? (
-          <div className="text-espresso/60 text-sm">No messages yet.</div>
-        ) : (
-          <ul className="space-y-2 text-sm">
-            {sms.map((s, i) => (
-              <li
-                key={i}
-                className="rounded-xl border border-espresso/10 bg-cream px-3 py-2"
-              >
-                <div className="text-espresso/60">
-                  {new Date(s.sentAt).toLocaleTimeString()} → {s.to} ·{" "}
-                  <span className="font-medium">{s.status}</span>
-                </div>
-                <div>{s.body}</div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
     </div>
   );
 }

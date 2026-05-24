@@ -27,8 +27,8 @@ export default function TermsPage() {
       <h2>3. Pickup</h2>
       <ul>
         <li>Orders are typically ready in ~{config.pickupEtaMinutes} minutes during business hours.</li>
-        <li>We will send an SMS to the mobile number you provided when your order is ready.</li>
-        <li>Please pick up your order within 60 minutes of receiving the &quot;ready&quot; SMS.</li>
+        <li>If you provide your email, we will email you when your order is ready. Staff may also call the phone number you provided.</li>
+        <li>Please pick up your order within 60 minutes of being notified.</li>
         <li>Unclaimed orders may be discarded; we cannot guarantee refunds for orders not picked up.</li>
       </ul>
 

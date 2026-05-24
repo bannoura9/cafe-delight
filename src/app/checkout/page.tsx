@@ -131,12 +131,8 @@ export default function CheckoutPage() {
           <a href="/legal/privacy" className="underline underline-offset-2 hover:text-crema-2">
             Privacy Policy
           </a>
-          , and consent to a single SMS to your mobile number when your order is
-          ready (
-          <a href="/legal/sms" className="underline underline-offset-2 hover:text-crema-2">
-            SMS terms
-          </a>
-          ). Reply STOP to opt out.
+          . If you provide your email, we&apos;ll send you a single notification
+          when your order is ready for pickup.
         </div>
 
         {state?.error ? (
