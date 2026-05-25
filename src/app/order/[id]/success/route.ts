@@ -4,6 +4,7 @@ import {
   annotateCloverOrder,
   printCloverOrder,
   getOrderIdFromCheckoutSession,
+  findRecentPaidOrder,
 } from "@/lib/clover";
 import { getOrder, markOrderPaid } from "@/lib/orders";
 import { config } from "@/lib/config";
@@ -80,10 +81,30 @@ export async function GET(
     }
   }
 
+  // Last-resort fallback: search recent merchant orders by exact total.
+  // The session endpoint 404s once the session is consumed; this is the
+  // reliable path for low-volume merchants.
   if (!cloverOrderId) {
-    console.error("[success] no cloverOrderId and session lookup failed", {
+    const byAmount = await findRecentPaidOrder(order.totalCents).catch(
+      (e) => {
+        console.error("[success] findRecentPaidOrder threw", e);
+        return null;
+      },
+    );
+    if (byAmount) {
+      cloverOrderId = byAmount;
+      console.log("[success] recovered cloverOrderId via amount search", {
+        cloverOrderId,
+        totalCents: order.totalCents,
+      });
+    }
+  }
+
+  if (!cloverOrderId) {
+    console.error("[success] no cloverOrderId — all lookups failed", {
       allParams,
       stashed: order.cloverOrderId,
+      totalCents: order.totalCents,
     });
     await markOrderPaid(id, checkoutSessionId ?? "unknown", checkoutSessionId ?? "unknown");
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));

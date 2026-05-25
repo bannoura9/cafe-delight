@@ -147,6 +147,45 @@ export async function getOrderIdFromCheckoutSession(
   return data.order?.id ?? data.orderId ?? null;
 }
 
+/**
+ * Search the merchant's recent orders for one matching our total. Used as a
+ * last-resort fallback when the session lookup returns 404 (the Clover
+ * hosted-checkout session ID becomes invalid once the customer pays).
+ *
+ * Since this is a low-volume coffee shop, an order with our exact cent total
+ * created in the last few minutes is overwhelmingly likely to be ours.
+ */
+export async function findRecentPaidOrder(
+  totalCents: number,
+  withinMinutes: number = 10,
+): Promise<string | null> {
+  if (config.mockMode) return null;
+  if (!config.clover.apiToken || !config.clover.merchantId) return null;
+
+  const sinceMs = Date.now() - withinMinutes * 60 * 1000;
+  const filter = encodeURIComponent(
+    `createdTime>${sinceMs}&total=${totalCents}`,
+  );
+  const url = `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders?filter=${filter}&limit=5&expand=payments`;
+
+  const res = await fetch(url, { headers: authHeaders() });
+  if (!res.ok) {
+    const text = await res.text();
+    console.error(
+      `[clover] recent order search failed (${res.status}): ${text}`,
+    );
+    return null;
+  }
+
+  const data = (await res.json()) as {
+    elements?: { id: string; total?: number; createdTime?: number }[];
+  };
+  const matches = (data.elements ?? []).filter((o) => o.total === totalCents);
+  if (matches.length === 0) return null;
+  matches.sort((a, b) => (b.createdTime ?? 0) - (a.createdTime ?? 0));
+  return matches[0].id;
+}
+
 export type CloverOrderState = "open" | "locked" | "paid" | "manualTransfer" | string;
 
 export type VerifiedPayment = {
