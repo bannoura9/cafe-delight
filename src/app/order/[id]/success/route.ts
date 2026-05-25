@@ -3,6 +3,7 @@ import {
   verifyCloverPayment,
   annotateCloverOrder,
   printCloverOrder,
+  getOrderIdFromCheckoutSession,
 } from "@/lib/clover";
 import { getOrder, markOrderPaid } from "@/lib/orders";
 import { config } from "@/lib/config";
@@ -12,9 +13,9 @@ import { config } from "@/lib/config";
  * We verify the payment with Clover, mark our order as paid, then redirect
  * the customer to their order status page.
  *
- * Note: the receipt email is sent automatically by Clover. We don't send
- * a duplicate receipt; we send a separate "your order is ready" email
- * from /admin when staff marks the order ready.
+ * Clover sometimes redirects back with no query params at all. In that case
+ * we fall back to looking up the Clover order via the checkout session ID
+ * we stashed on the order when we created the checkout.
  */
 export async function GET(
   req: NextRequest,
@@ -35,7 +36,7 @@ export async function GET(
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }
 
-  const cloverOrderId =
+  let cloverOrderId =
     url.searchParams.get("orderId") ??
     url.searchParams.get("cloverOrderId") ??
     url.searchParams.get("order_id") ??
@@ -53,8 +54,37 @@ export async function GET(
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }
 
+  // Fallback: Clover redirected with no order ID. Use the session we stashed.
   if (!cloverOrderId) {
-    console.error("[success] no cloverOrderId in callback", { allParams });
+    const stashed = order.cloverOrderId;
+    const sessId =
+      checkoutSessionId ??
+      (stashed && stashed.startsWith("session:")
+        ? stashed.slice("session:".length)
+        : null);
+
+    if (sessId) {
+      const lookedUp = await getOrderIdFromCheckoutSession(sessId).catch(
+        (e) => {
+          console.error("[success] session lookup threw", e);
+          return null;
+        },
+      );
+      if (lookedUp) {
+        cloverOrderId = lookedUp;
+        console.log("[success] recovered cloverOrderId via session", {
+          sessId,
+          cloverOrderId,
+        });
+      }
+    }
+  }
+
+  if (!cloverOrderId) {
+    console.error("[success] no cloverOrderId and session lookup failed", {
+      allParams,
+      stashed: order.cloverOrderId,
+    });
     await markOrderPaid(id, checkoutSessionId ?? "unknown", checkoutSessionId ?? "unknown");
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   }

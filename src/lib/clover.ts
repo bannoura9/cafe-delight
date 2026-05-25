@@ -113,6 +113,40 @@ export async function createHostedCheckout(
   return data;
 }
 
+/**
+ * Look up the Clover order ID associated with a hosted-checkout session.
+ * Used as a fallback when Clover redirects back to our success URL with
+ * empty query params (which happens for some checkout flows).
+ */
+export async function getOrderIdFromCheckoutSession(
+  sessionId: string,
+): Promise<string | null> {
+  if (config.mockMode) return null;
+  if (!config.clover.apiToken || !config.clover.merchantId) return null;
+
+  const res = await fetch(
+    `${CLOVER_BASE[env()]}/invoicingcheckoutservice/v1/checkouts/${sessionId}`,
+    {
+      headers: {
+        ...authHeaders(),
+        "X-Clover-Merchant-Id": config.clover.merchantId,
+      },
+    },
+  );
+  if (!res.ok) {
+    const text = await res.text();
+    console.error(
+      `[clover] checkout-session lookup failed (${res.status}): ${text}`,
+    );
+    return null;
+  }
+  const data = (await res.json()) as {
+    order?: { id?: string };
+    orderId?: string;
+  };
+  return data.order?.id ?? data.orderId ?? null;
+}
+
 export type CloverOrderState = "open" | "locked" | "paid" | "manualTransfer" | string;
 
 export type VerifiedPayment = {

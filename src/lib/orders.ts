@@ -141,6 +141,23 @@ export async function markEmailSent(id: string): Promise<void> {
   await sql`UPDATE orders SET email_sent_at = ${Date.now()} WHERE id = ${id}`;
 }
 
+/**
+ * Stash the Clover hosted-checkout session ID on the order so the success
+ * route can recover the Clover order even when Clover redirects back with
+ * empty query params. Prefixed with `session:` so it never collides with a
+ * real Clover order ID. Overwritten by `markOrderPaid` once payment lands.
+ */
+export async function setCheckoutSession(
+  id: string,
+  sessionId: string,
+): Promise<void> {
+  await sql`
+    UPDATE orders
+    SET clover_order_id = ${"session:" + sessionId}
+    WHERE id = ${id} AND status = 'pending_payment'
+  `;
+}
+
 export async function markOrderPaid(
   id: string,
   cloverOrderId: string,

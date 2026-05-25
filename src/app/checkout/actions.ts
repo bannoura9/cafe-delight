@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createHostedCheckout } from "@/lib/clover";
-import { createOrder, type OrderItem } from "@/lib/orders";
+import { createOrder, setCheckoutSession, type OrderItem } from "@/lib/orders";
 import { isOpenNow } from "@/lib/hours";
 import { config } from "@/lib/config";
 
@@ -116,6 +116,10 @@ export async function placeOrder(
       error: e instanceof Error ? e.message : "Payment setup failed.",
     };
   }
+
+  await setCheckoutSession(order.id, checkout.checkoutSessionId).catch((e) =>
+    console.error("[checkout] setCheckoutSession failed", e),
+  );
 
   redirect(checkout.href);
 }
