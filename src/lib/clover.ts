@@ -164,3 +164,61 @@ export async function verifyCloverPayment(
     paymentId: successful?.id ?? null,
   };
 }
+
+/**
+ * Tag the Clover order with customer name + ONLINE marker so the printed
+ * ticket and the on-screen order list are obviously online pickup orders,
+ * not walk-in register sales.
+ */
+export async function annotateCloverOrder(
+  cloverOrderId: string,
+  customerName: string,
+  ourOrderId: string,
+): Promise<void> {
+  if (config.mockMode) return;
+  if (!config.clover.apiToken || !config.clover.merchantId) return;
+
+  const title = `ONLINE — ${customerName}`;
+  const note = `ONLINE PICKUP ORDER\nCustomer: ${customerName}\nWebsite order #${ourOrderId}`;
+
+  const res = await fetch(
+    `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders/${cloverOrderId}`,
+    {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ title, note }),
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.error(`[clover] annotate failed (${res.status}): ${text}`);
+  }
+}
+
+/**
+ * Send the Clover order to the merchant's receipt printer(s). Uses the
+ * print_event endpoint, which the Station Duo polls and turns into a
+ * physical receipt print. Fires-and-forgets — failures are logged but
+ * never block the customer's success redirect.
+ */
+export async function printCloverOrder(cloverOrderId: string): Promise<void> {
+  if (config.mockMode) return;
+  if (!config.clover.apiToken || !config.clover.merchantId) return;
+
+  const res = await fetch(
+    `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/print_event`,
+    {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        orderRef: { id: cloverOrderId },
+      }),
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.error(`[clover] print_event failed (${res.status}): ${text}`);
+  }
+}
