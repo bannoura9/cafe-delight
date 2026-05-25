@@ -1,11 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CartBadge } from "./CartBadge";
+import { OpenDot } from "./OpenDot";
 import { config } from "@/lib/config";
-import { isOpenNow } from "@/lib/hours";
 
 export function Header() {
-  const open = isOpenNow();
   return (
     <header className="border-b border-espresso/10 bg-cream/80 backdrop-blur sticky top-0 z-20">
       <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
@@ -31,17 +30,7 @@ export function Header() {
               Cart <CartBadge />
             </Link>
           </nav>
-          <div className="flex items-center gap-1.5 text-[11px] leading-none">
-            <span
-              aria-hidden
-              className={`inline-block w-1.5 h-1.5 rounded-full ${
-                open ? "bg-leaf" : "bg-red-500"
-              }`}
-            />
-            <span className={open ? "text-leaf" : "text-red-700"}>
-              {open ? "Open" : "Closed"}
-            </span>
-          </div>
+          <OpenDot />
         </div>
       </div>
     </header>
