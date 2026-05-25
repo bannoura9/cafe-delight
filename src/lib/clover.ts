@@ -275,8 +275,15 @@ export async function annotateCloverOrder(
   if (config.mockMode) return;
   if (!config.clover.apiToken || !config.clover.merchantId) return;
 
+  const orderTime = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Denver",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date());
+
   const title = `ONLINE — ${customerName}`;
-  const note = `ONLINE PICKUP ORDER\nCustomer: ${customerName}\nWebsite order #${ourOrderId}`;
+  const note = `*** ONLINE PICKUP ***\nCustomer: ${customerName}\nPlaced at ${orderTime}\nWebsite order #${ourOrderId}`;
 
   const res = await fetch(
     `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders/${cloverOrderId}`,
