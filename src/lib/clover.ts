@@ -166,7 +166,7 @@ export async function findRecentPaidOrder(
   // server-side filter syntax (`filter=createdTime>X&filter=total=Y`) is
   // finicky and we only need a small slice for a low-volume shop.
   const url = `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders?orderBy=createdTime+DESC&limit=20&expand=payments`;
-  console.log("[clover] findRecentPaidOrder GET", { url, totalCents });
+  console.error("[clover] findRecentPaidOrder GET", { url, totalCents });
 
   const res = await fetch(url, { headers: authHeaders() });
   if (!res.ok) {
@@ -188,7 +188,7 @@ export async function findRecentPaidOrder(
 
   const cutoff = Date.now() - withinMinutes * 60 * 1000;
   const all = data.elements ?? [];
-  console.log("[clover] findRecentPaidOrder pool", {
+  console.error("[clover] findRecentPaidOrder pool", {
     count: all.length,
     sampleTotals: all.slice(0, 5).map((o) => o.total),
   });
@@ -203,7 +203,7 @@ export async function findRecentPaidOrder(
   });
 
   if (matches.length === 0) {
-    console.log("[clover] findRecentPaidOrder no match", { totalCents });
+    console.error("[clover] findRecentPaidOrder no match", { totalCents });
     return null;
   }
   matches.sort((a, b) => (b.createdTime ?? 0) - (a.createdTime ?? 0));

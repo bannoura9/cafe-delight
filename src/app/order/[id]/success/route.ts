@@ -73,7 +73,7 @@ export async function GET(
       );
       if (lookedUp) {
         cloverOrderId = lookedUp;
-        console.log("[success] recovered cloverOrderId via session", {
+        console.error("[success] recovered cloverOrderId via session", {
           sessId,
           cloverOrderId,
         });
@@ -91,9 +91,10 @@ export async function GET(
         return null;
       },
     );
+    console.error("[success] amount search result", { byAmount, totalCents: order.totalCents });
     if (byAmount) {
       cloverOrderId = byAmount;
-      console.log("[success] recovered cloverOrderId via amount search", {
+      console.error("[success] recovered cloverOrderId via amount search", {
         cloverOrderId,
         totalCents: order.totalCents,
       });
