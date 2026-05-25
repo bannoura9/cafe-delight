@@ -157,16 +157,16 @@ export async function getOrderIdFromCheckoutSession(
  */
 export async function findRecentPaidOrder(
   totalCents: number,
-  withinMinutes: number = 10,
+  withinMinutes: number = 15,
 ): Promise<string | null> {
   if (config.mockMode) return null;
   if (!config.clover.apiToken || !config.clover.merchantId) return null;
 
-  const sinceMs = Date.now() - withinMinutes * 60 * 1000;
-  const filter = encodeURIComponent(
-    `createdTime>${sinceMs}&total=${totalCents}`,
-  );
-  const url = `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders?filter=${filter}&limit=5&expand=payments`;
+  // Pull the most recent merchant orders and filter client-side. Clover's
+  // server-side filter syntax (`filter=createdTime>X&filter=total=Y`) is
+  // finicky and we only need a small slice for a low-volume shop.
+  const url = `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders?orderBy=createdTime+DESC&limit=20&expand=payments`;
+  console.log("[clover] findRecentPaidOrder GET", { url, totalCents });
 
   const res = await fetch(url, { headers: authHeaders() });
   if (!res.ok) {
@@ -178,10 +178,34 @@ export async function findRecentPaidOrder(
   }
 
   const data = (await res.json()) as {
-    elements?: { id: string; total?: number; createdTime?: number }[];
+    elements?: {
+      id: string;
+      total?: number;
+      createdTime?: number;
+      payments?: { elements?: { result?: string }[] };
+    }[];
   };
-  const matches = (data.elements ?? []).filter((o) => o.total === totalCents);
-  if (matches.length === 0) return null;
+
+  const cutoff = Date.now() - withinMinutes * 60 * 1000;
+  const all = data.elements ?? [];
+  console.log("[clover] findRecentPaidOrder pool", {
+    count: all.length,
+    sampleTotals: all.slice(0, 5).map((o) => o.total),
+  });
+
+  const matches = all.filter((o) => {
+    if (o.total !== totalCents) return false;
+    if ((o.createdTime ?? 0) < cutoff) return false;
+    const paid = (o.payments?.elements ?? []).some(
+      (p) => p.result === "SUCCESS",
+    );
+    return paid;
+  });
+
+  if (matches.length === 0) {
+    console.log("[clover] findRecentPaidOrder no match", { totalCents });
+    return null;
+  }
   matches.sort((a, b) => (b.createdTime ?? 0) - (a.createdTime ?? 0));
   return matches[0].id;
 }
