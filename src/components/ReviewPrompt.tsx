@@ -15,13 +15,12 @@ export function ReviewPrompt({
   feedbackEmail,
   googleReviewUrl,
 }: Props) {
-  const [rating, setRating] = useState<number | null>(null);
-  const [hover, setHover] = useState<number | null>(null);
   const [stage, setStage] = useState<"ask" | "feedback" | "thanks">("ask");
+  const [thanksVia, setThanksVia] = useState<"google" | "private">("private");
   const [feedback, setFeedback] = useState("");
   const [dismissed, setDismissed] = useState(false);
 
-  // Persist that this order was already rated so we don't ask again on refresh.
+  // Persist that this order was already handled so we don't ask again on refresh.
   useEffect(() => {
     const key = `cd-reviewed:${orderId}`;
     if (typeof window !== "undefined" && window.localStorage.getItem(key)) {
@@ -37,29 +36,23 @@ export function ReviewPrompt({
     }
   };
 
-  const onRate = (n: number) => {
-    setRating(n);
-    if (n === 5) {
-      // 5-star path → send straight to Google review
-      markDone();
-      window.open(googleReviewUrl, "_blank", "noopener,noreferrer");
-      setStage("thanks");
-    } else {
-      // 1-4 stars → ask for feedback we can address privately
-      setStage("feedback");
-    }
+  const leaveGoogleReview = () => {
+    markDone();
+    window.open(googleReviewUrl, "_blank", "noopener,noreferrer");
+    setThanksVia("google");
+    setStage("thanks");
   };
 
   const sendFeedback = () => {
-    const subject = `Café Delight order #${orderId} — ${rating} star feedback`;
+    const subject = `Café Delight order #${orderId} — feedback`;
     const body =
       `Customer: ${customerName}\n` +
-      `Order: #${orderId}\n` +
-      `Rating: ${rating} / 5\n\n` +
+      `Order: #${orderId}\n\n` +
       `${feedback || "(no message)"}\n`;
     const mailto = `mailto:${feedbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     markDone();
     window.location.href = mailto;
+    setThanksVia("private");
     setStage("thanks");
   };
 
@@ -71,8 +64,8 @@ export function ReviewPrompt({
         <div className="text-2xl">🙏</div>
         <div className="font-medium text-espresso mt-1">Thank you!</div>
         <p className="text-sm text-espresso/70 mt-1">
-          {rating === 5
-            ? "We sincerely appreciate the kind word."
+          {thanksVia === "google"
+            ? "We appreciate you taking a moment to leave a review."
             : "We read every message and use it to get better."}
         </p>
       </div>
@@ -83,26 +76,23 @@ export function ReviewPrompt({
     return (
       <div className="mt-6 rounded-2xl bg-cream-2/50 border border-espresso/10 p-5">
         <div className="text-sm text-espresso/70 mb-2">
-          You rated us <strong>{rating} / 5</strong>. Tell us what we can do
-          better — we&apos;ll fix it.
+          Tell us anything — what you loved or what we can do better. It comes
+          straight to us.
         </div>
         <textarea
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
-          placeholder="What could've been better? (optional)"
+          placeholder="Your message (optional)"
           rows={3}
           className="w-full rounded-xl border border-espresso/20 bg-cream px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-crema"
         />
         <div className="mt-3 flex gap-2 justify-end">
           <button
             type="button"
-            onClick={() => {
-              markDone();
-              setDismissed(true);
-            }}
+            onClick={() => setStage("ask")}
             className="text-sm rounded-full px-4 py-2 text-espresso/70 hover:text-espresso"
           >
-            Skip
+            Back
           </button>
           <button
             type="button"
@@ -120,27 +110,23 @@ export function ReviewPrompt({
     <div className="mt-6 rounded-2xl bg-cream-2/50 border border-espresso/10 p-5 text-center">
       <div className="font-medium text-espresso">How was your experience?</div>
       <div className="text-sm text-espresso/70 mt-1">
-        Your feedback helps {customerName.split(" ")[0]} 😉
+        We&apos;d love to hear from you, {customerName.split(" ")[0]} 😊
       </div>
-      <div className="mt-3 flex justify-center gap-1.5">
-        {[1, 2, 3, 4, 5].map((n) => {
-          const filled = (hover ?? rating ?? 0) >= n;
-          return (
-            <button
-              key={n}
-              type="button"
-              onMouseEnter={() => setHover(n)}
-              onMouseLeave={() => setHover(null)}
-              onClick={() => onRate(n)}
-              className={`text-3xl transition-transform hover:scale-110 ${
-                filled ? "text-crema-2" : "text-espresso/20"
-              }`}
-              aria-label={`${n} star${n > 1 ? "s" : ""}`}
-            >
-              ★
-            </button>
-          );
-        })}
+      <div className="mt-4 flex flex-col sm:flex-row justify-center gap-2">
+        <button
+          type="button"
+          onClick={leaveGoogleReview}
+          className="text-sm rounded-full bg-espresso text-cream px-5 py-2.5 font-medium hover:bg-espresso-2"
+        >
+          Leave a Google review
+        </button>
+        <button
+          type="button"
+          onClick={() => setStage("feedback")}
+          className="text-sm rounded-full border border-espresso/20 text-espresso px-5 py-2.5 font-medium hover:bg-cream"
+        >
+          Tell us privately
+        </button>
       </div>
     </div>
   );

@@ -19,5 +19,5 @@ export const config = {
   feedbackEmail: process.env.FEEDBACK_EMAIL ?? "cafedelightco@gmail.com",
   googleReviewUrl:
     process.env.GOOGLE_REVIEW_URL ??
-    "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9+Delight+9395+Crown+Crest+Blvd+Parker+CO",
+    "https://g.page/r/Cc_mxV_E8dT4EBM/review",
 };
