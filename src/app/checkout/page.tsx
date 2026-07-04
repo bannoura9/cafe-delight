@@ -120,6 +120,13 @@ export default function CheckoutPage() {
             autoComplete="email"
             className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
           />
+          <textarea
+            name="notes"
+            placeholder="Notes for the barista (optional) — e.g. extra hot, light ice, oat milk swap"
+            rows={2}
+            maxLength={500}
+            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema resize-none"
+          />
         </fieldset>
 
         <fieldset>

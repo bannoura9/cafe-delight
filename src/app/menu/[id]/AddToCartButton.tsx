@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cartStore";
 import type { MenuItem, Modifier, Size } from "@/lib/menu";
-import { formatMoney } from "@/lib/menu";
+import { formatMoney, tempModifier } from "@/lib/menu";
 import { trackAddToCart } from "@/lib/track";
 
 export function AddToCartButton({ item }: { item: MenuItem }) {
@@ -12,7 +12,11 @@ export function AddToCartButton({ item }: { item: MenuItem }) {
   const add = useCart((s) => s.add);
   const [size, setSize] = useState<Size>(item.sizes[0]);
   const [selected, setSelected] = useState<Modifier[]>([]);
+  const [temp, setTemp] = useState<"hot" | "iced">("hot");
   const [busy, setBusy] = useState(false);
+
+  // Only ask hot/iced when the drink can actually be either.
+  const asksTemp = item.temperature === "either";
 
   const hasSizes = item.sizes.length > 1;
   const modsTotal = selected.reduce((s, m) => s + m.priceCents, 0);
@@ -28,12 +32,14 @@ export function AddToCartButton({ item }: { item: MenuItem }) {
   const handleAdd = (goToCart: boolean) => {
     setBusy(true);
     const displayName = hasSizes ? `${item.name} (${size.label})` : item.name;
+    // Prepend the temperature so it reads first on the ticket.
+    const modifiers = asksTemp ? [tempModifier(temp), ...selected] : selected;
     const line = {
       menuItemId: item.id,
       name: displayName,
       unitPriceCents: size.priceCents,
       quantity: 1,
-      modifiers: selected,
+      modifiers,
     };
     add(line);
     trackAddToCart(line);
@@ -46,6 +52,28 @@ export function AddToCartButton({ item }: { item: MenuItem }) {
 
   return (
     <div className="space-y-3">
+      {asksTemp ? (
+        <div>
+          <div className="text-sm font-medium text-espresso mb-2">Temperature</div>
+          <div className="flex gap-2">
+            {(["hot", "iced"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTemp(t)}
+                className={`text-sm rounded-full px-4 py-1.5 border ${
+                  temp === t
+                    ? "bg-espresso text-cream border-espresso"
+                    : "border-espresso/20 hover:bg-cream"
+                }`}
+              >
+                {t === "hot" ? "🔥 Hot" : "🧊 Iced"}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {hasSizes ? (
         <div>
           <div className="text-sm font-medium text-espresso mb-2">Size</div>

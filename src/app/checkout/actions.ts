@@ -41,6 +41,8 @@ export async function placeOrder(
   const customerPhone = String(formData.get("phone") ?? "").trim();
   const customerEmailRaw = String(formData.get("email") ?? "").trim();
   const customerEmail = customerEmailRaw.length > 0 ? customerEmailRaw : null;
+  const notesRaw = String(formData.get("notes") ?? "").trim().slice(0, 500);
+  const notes = notesRaw.length > 0 ? notesRaw : null;
   const tipPct = Number(formData.get("tipPct") ?? 0);
   const linesRaw = String(formData.get("lines") ?? "[]");
 
@@ -86,6 +88,7 @@ export async function placeOrder(
       customerName,
       customerPhone,
       customerEmail,
+      notes,
       items,
       subtotalCents,
       taxCents,

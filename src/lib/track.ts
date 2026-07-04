@@ -21,8 +21,25 @@ export type CartLine = {
 
 function gtag(...args: unknown[]) {
   if (typeof window === "undefined") return;
-  if (typeof window.gtag !== "function") return;
-  window.gtag(...args);
+  if (typeof window.gtag === "function") {
+    window.gtag(...args);
+    return;
+  }
+  // gtag.js is loaded async (afterInteractive) by @next/third-parties. On a
+  // hard navigation — e.g. the redirect from Clover to the order-confirmation
+  // page — an effect can fire this before the script is ready. Rather than
+  // silently drop the event (which is how `purchase` events went missing),
+  // retry for a few seconds until gtag exists, then send.
+  let tries = 0;
+  const timer = setInterval(() => {
+    tries += 1;
+    if (typeof window.gtag === "function") {
+      window.gtag(...args);
+      clearInterval(timer);
+    } else if (tries >= 40) {
+      clearInterval(timer); // ~6s; give up rather than leak the interval
+    }
+  }, 150);
 }
 
 function itemPrice(line: { unitPriceCents: number; modifiers: { priceCents: number }[] }): number {

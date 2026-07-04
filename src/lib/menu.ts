@@ -4,6 +4,15 @@ export type Modifier = {
   priceCents: number;
 };
 
+// Hot/Iced is captured as a zero-price modifier so it flows automatically into
+// the cart, the saved order, and — crucially — the Clover receipt line (which
+// already appends modifier names to the item, e.g. "Latte — Iced, Oat milk").
+export const TEMP_HOT: Modifier = { id: "temp-hot", name: "Hot", priceCents: 0 };
+export const TEMP_ICED: Modifier = { id: "temp-iced", name: "Iced", priceCents: 0 };
+export function tempModifier(t: "hot" | "iced"): Modifier {
+  return t === "iced" ? TEMP_ICED : TEMP_HOT;
+}
+
 export type Size = {
   id: string;
   label: string;

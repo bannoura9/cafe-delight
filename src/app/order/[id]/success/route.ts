@@ -120,7 +120,7 @@ export async function GET(
     }
     await markOrderPaid(id, cloverOrderId, verified.paymentId ?? "");
 
-    await annotateCloverOrder(cloverOrderId, order.customerName, id).catch(
+    await annotateCloverOrder(cloverOrderId, order.customerName, id, order.notes).catch(
       (e) => console.error("[success] annotate failed", e),
     );
     printCloverOrder(cloverOrderId).catch((e) =>

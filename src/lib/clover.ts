@@ -271,6 +271,7 @@ export async function annotateCloverOrder(
   cloverOrderId: string,
   customerName: string,
   ourOrderId: string,
+  customerNotes?: string | null,
 ): Promise<void> {
   if (config.mockMode) return;
   if (!config.clover.apiToken || !config.clover.merchantId) return;
@@ -283,7 +284,16 @@ export async function annotateCloverOrder(
   }).format(new Date());
 
   const title = `ONLINE — ${customerName}`;
-  const note = `*** ONLINE PICKUP ***\nCustomer: ${customerName}\nPlaced at ${orderTime}\nWebsite order #${ourOrderId}`;
+  const noteLines = [
+    `*** ONLINE PICKUP ***`,
+    `Customer: ${customerName}`,
+    `Placed at ${orderTime}`,
+    `Website order #${ourOrderId}`,
+  ];
+  if (customerNotes && customerNotes.trim().length > 0) {
+    noteLines.push(`>> NOTES: ${customerNotes.trim()}`);
+  }
+  const note = noteLines.join("\n");
 
   const res = await fetch(
     `${CLOVER_BASE[env()]}/v3/merchants/${config.clover.merchantId}/orders/${cloverOrderId}`,

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { MenuItem, Modifier, Size } from "@/lib/menu";
-import { formatMoney, CATEGORY_EMOJI } from "@/lib/menu";
+import { formatMoney, CATEGORY_EMOJI, tempModifier } from "@/lib/menu";
 import { useCart } from "@/lib/cartStore";
 import { trackAddToCart } from "@/lib/track";
 
@@ -13,10 +13,12 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
   const [size, setSize] = useState<Size>(item.sizes[0]);
   const [showMods, setShowMods] = useState(false);
   const [selected, setSelected] = useState<Modifier[]>([]);
+  const [temp, setTemp] = useState<"hot" | "iced">("hot");
   const [justAdded, setJustAdded] = useState(false);
 
   const hasSizes = item.sizes.length > 1;
   const hasModifiers = (item.modifiers?.length ?? 0) > 0;
+  const asksTemp = item.temperature === "either";
 
   const toggle = (mod: Modifier) =>
     setSelected((s) =>
@@ -30,16 +32,18 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
 
   const handleAdd = () => {
     const displayName = hasSizes ? `${item.name} (${size.label})` : item.name;
+    const modifiers = asksTemp ? [tempModifier(temp), ...selected] : selected;
     const line = {
       menuItemId: item.id,
       name: displayName,
       unitPriceCents: size.priceCents,
       quantity: 1,
-      modifiers: selected,
+      modifiers,
     };
     add(line);
     trackAddToCart(line);
     setSelected([]);
+    setTemp("hot");
     setShowMods(false);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1200);
@@ -97,6 +101,25 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
                 }`}
               >
                 {s.label} · {formatMoney(s.priceCents)}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        {asksTemp ? (
+          <div className="flex gap-1.5">
+            {(["hot", "iced"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTemp(t)}
+                className={`text-xs rounded-full px-3 py-1 border ${
+                  temp === t
+                    ? "bg-espresso text-cream border-espresso"
+                    : "border-espresso/20 hover:bg-cream"
+                }`}
+              >
+                {t === "hot" ? "🔥 Hot" : "🧊 Iced"}
               </button>
             ))}
           </div>
