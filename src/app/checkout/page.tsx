@@ -127,6 +127,9 @@ export default function CheckoutPage() {
             maxLength={500}
             className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema resize-none"
           />
+          <p className="text-xs text-espresso/75">
+            Your note prints on the café&apos;s order ticket — no need to repeat it on the payment page.
+          </p>
         </fieldset>
 
         <fieldset>

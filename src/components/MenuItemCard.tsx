@@ -50,10 +50,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
   };
 
   return (
-    <article
-      data-temperature={item.temperature}
-      className="group rounded-2xl bg-cream-2/40 border border-espresso/5 overflow-hidden hover:shadow-sm transition flex flex-col"
-    >
+    <article className="group rounded-2xl bg-cream-2/40 border border-espresso/5 overflow-hidden hover:shadow-sm transition flex flex-col">
       <Link href={`/menu/${item.id}`} className="block group/img">
         {item.image ? (
           <div className="relative aspect-[4/5] bg-cream-2 overflow-hidden">
