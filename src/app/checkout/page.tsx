@@ -97,36 +97,60 @@ export default function CheckoutPage() {
 
         <fieldset className="space-y-3">
           <legend className="font-semibold text-espresso">Your info</legend>
-          <input
-            name="name"
-            placeholder="Name"
-            required
-            autoComplete="name"
-            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
-          />
-          <input
-            name="phone"
-            placeholder="Mobile number"
-            required
-            inputMode="tel"
-            autoComplete="tel"
-            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
-          />
-          <input
-            name="email"
-            placeholder="Email (optional — for receipt)"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
-          />
-          <textarea
-            name="notes"
-            placeholder="Notes for the barista (optional) — e.g. extra hot, light ice, oat milk swap"
-            rows={2}
-            maxLength={500}
-            className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema resize-none"
-          />
+          <div>
+            <label htmlFor="checkout-name" className="block text-sm font-medium text-espresso mb-1">
+              Name
+            </label>
+            <input
+              id="checkout-name"
+              name="name"
+              placeholder="e.g. Jordan"
+              required
+              autoComplete="name"
+              className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
+            />
+          </div>
+          <div>
+            <label htmlFor="checkout-phone" className="block text-sm font-medium text-espresso mb-1">
+              Mobile number
+            </label>
+            <input
+              id="checkout-phone"
+              name="phone"
+              placeholder="(303) 555-0100"
+              required
+              inputMode="tel"
+              autoComplete="tel"
+              className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
+            />
+          </div>
+          <div>
+            <label htmlFor="checkout-email" className="block text-sm font-medium text-espresso mb-1">
+              Email <span className="font-normal text-espresso/70">(optional — for receipt)</span>
+            </label>
+            <input
+              id="checkout-email"
+              name="email"
+              placeholder="you@example.com"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema"
+            />
+          </div>
+          <div>
+            <label htmlFor="checkout-notes" className="block text-sm font-medium text-espresso mb-1">
+              Notes for the barista <span className="font-normal text-espresso/70">(optional)</span>
+            </label>
+            <textarea
+              id="checkout-notes"
+              name="notes"
+              placeholder="e.g. extra hot, light ice, oat milk swap"
+              rows={2}
+              maxLength={500}
+              className="w-full rounded-xl border border-espresso/20 bg-cream px-4 py-3 focus:outline-none focus:ring-2 focus:ring-crema resize-none"
+            />
+          </div>
           <p className="text-xs text-espresso/75">
             Your note prints on the café&apos;s order ticket — no need to repeat it on the payment page.
           </p>
@@ -173,6 +197,7 @@ export default function CheckoutPage() {
                 min="0"
                 step="0.25"
                 placeholder="0.00"
+                aria-label="Custom tip amount in dollars"
                 value={customTip}
                 onChange={(e) => setCustomTip(e.target.value)}
                 className="w-32 rounded-xl border border-espresso/20 bg-cream px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-crema tabular-nums"

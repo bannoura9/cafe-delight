@@ -8,7 +8,13 @@ import { formatMoney, CATEGORY_EMOJI, tempModifier } from "@/lib/menu";
 import { useCart } from "@/lib/cartStore";
 import { trackAddToCart } from "@/lib/track";
 
-export function MenuItemCard({ item }: { item: MenuItem }) {
+export function MenuItemCard({
+  item,
+  imagePriority = false,
+}: {
+  item: MenuItem;
+  imagePriority?: boolean;
+}) {
   const add = useCart((s) => s.add);
   const [size, setSize] = useState<Size>(item.sizes[0]);
   const [showMods, setShowMods] = useState(false);
@@ -59,6 +65,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
               alt={item.name}
               fill
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              priority={imagePriority}
               className="object-cover transition-transform group-hover/img:scale-[1.03]"
             />
           </div>

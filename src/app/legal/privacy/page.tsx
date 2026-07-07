@@ -1,6 +1,10 @@
 import { config } from "@/lib/config";
 
-export const metadata = { title: `Privacy Policy — ${process.env.BUSINESS_NAME ?? "Café Delight"}` };
+export const metadata = {
+  title: `Privacy Policy — ${process.env.BUSINESS_NAME ?? "Café Delight"}`,
+  description: `How ${process.env.BUSINESS_NAME ?? "Café Delight"} handles your information when you order online: what we collect, why, and what we never do with it.`,
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cafedelightco.com"}/legal/privacy` },
+};
 
 export default function PrivacyPage() {
   const effective = "May 23, 2026";

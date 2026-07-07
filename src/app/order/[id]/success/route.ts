@@ -107,8 +107,12 @@ export async function GET(
       stashed: order.cloverOrderId,
       totalCents: order.totalCents,
     });
-    await markOrderPaid(id, checkoutSessionId ?? "unknown", checkoutSessionId ?? "unknown");
-    return NextResponse.redirect(new URL(`/order/${id}`, req.url));
+    // Never mark paid without a verifiable Clover order. The order stays
+    // pending_payment; staff can confirm the charge in Clover and mark it
+    // received from /admin.
+    return NextResponse.redirect(
+      new URL(`/order/${id}/failed?reason=unconfirmed`, req.url),
+    );
   }
 
   try {
@@ -130,7 +134,8 @@ export async function GET(
     return NextResponse.redirect(new URL(`/order/${id}`, req.url));
   } catch (e) {
     console.error("[success] verify threw", e);
-    await markOrderPaid(id, cloverOrderId, "verify_failed");
-    return NextResponse.redirect(new URL(`/order/${id}`, req.url));
+    return NextResponse.redirect(
+      new URL(`/order/${id}/failed?reason=unconfirmed`, req.url),
+    );
   }
 }

@@ -143,6 +143,13 @@ export function menuItemMetaDescription(item: MenuItem): string {
     item.sizes.length > 1
       ? `${formatMoney(item.sizes[0].priceCents)}–${formatMoney(item.sizes[item.sizes.length - 1].priceCents)}`
       : formatMoney(item.sizes[0].priceCents);
-  const desc = item.description ? `${item.description} ` : "";
-  return `${desc}Order ${item.name} online from ${config.businessName} in Parker, CO. ${priceRange}. Ready in ~${config.pickupEtaMinutes} minutes for pickup.`;
+  const cta = `Order ${item.name} online from ${config.businessName} in Parker, CO. ${priceRange}. Pickup in ~${config.pickupEtaMinutes} min.`;
+
+  // Google truncates around 160 chars; lead with the first sentence of the
+  // description only if the whole line still fits.
+  const firstSentence = item.description?.match(/^[^.]*\./)?.[0];
+  if (firstSentence && firstSentence.length + cta.length + 1 <= 160) {
+    return `${firstSentence} ${cta}`;
+  }
+  return cta;
 }

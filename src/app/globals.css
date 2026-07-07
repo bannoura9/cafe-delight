@@ -6,7 +6,7 @@
   --color-espresso: #4a2912;
   --color-espresso-2: #6b3a1c;
   --color-crema: #f5a93b;
-  --color-crema-2: #e88a16;
+  --color-crema-2: #9a5607; /* WCAG AA: ≥4.5:1 on cream and cream-2 */
   --color-leaf: #5a7a4f;
 
   --font-display: ui-serif, Georgia, "Times New Roman", serif;

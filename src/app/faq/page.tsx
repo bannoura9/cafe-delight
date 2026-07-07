@@ -71,6 +71,11 @@ export const metadata: Metadata = {
   title: "FAQ — Frequently Asked Questions",
   description: `Common questions about ordering online from ${config.businessName} in Parker, CO. Payment, pickup times, milk options, hours, and more.`,
   alternates: { canonical: `${SITE_URL}/faq` },
+  openGraph: {
+    title: `FAQ · ${config.businessName}`,
+    description: "Payment, pickup times, milk options, hours, and more.",
+    url: `${SITE_URL}/faq`,
+  },
 };
 
 export default function FaqPage() {

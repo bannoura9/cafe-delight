@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "About",
   description: `${config.businessName} is a coffee shop in Parker, CO serving espresso, signature lattes, boba, matcha, and gelato. Order online for fast pickup.`,
   alternates: { canonical: `${SITE_URL}/about` },
+  openGraph: {
+    title: `About · ${config.businessName}`,
+    description: "A local coffee shop in Parker, CO serving espresso, signature lattes, boba, matcha, and gelato.",
+    url: `${SITE_URL}/about`,
+  },
 };
 
 export default function AboutPage() {

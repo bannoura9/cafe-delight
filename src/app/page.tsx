@@ -40,6 +40,7 @@ export default function HomePage() {
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             priority
+            fetchPriority="high"
             className="object-cover"
           />
         </div>

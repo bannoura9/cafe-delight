@@ -1,6 +1,10 @@
 import { config } from "@/lib/config";
 
-export const metadata = { title: `Terms of Service — ${process.env.BUSINESS_NAME ?? "Café Delight"}` };
+export const metadata = {
+  title: `Terms of Service — ${process.env.BUSINESS_NAME ?? "Café Delight"}`,
+  description: `Terms for ordering online from ${process.env.BUSINESS_NAME ?? "Café Delight"} in Parker, CO: payments, pickup, refunds, and cancellations.`,
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cafedelightco.com"}/legal/terms` },
+};
 
 export default function TermsPage() {
   const effective = "May 23, 2026";

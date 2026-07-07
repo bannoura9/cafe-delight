@@ -35,7 +35,7 @@ export function FeaturedDrink() {
               {item.tagline}
             </p>
           ) : null}
-          <div className="text-sm text-espresso/60 mb-5 tabular-nums">
+          <div className="text-sm text-espresso/70 mb-5 tabular-nums">
             Starting at {formatMoney(startingPrice)}
           </div>
           <div className="flex gap-3 flex-wrap">

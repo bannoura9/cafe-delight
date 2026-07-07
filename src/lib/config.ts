@@ -6,7 +6,6 @@ export const config = {
   businessPhone: process.env.BUSINESS_PHONE ?? "",
   pickupEtaMinutes: Number(process.env.PICKUP_ETA_MINUTES ?? 5),
   taxRate: Number(process.env.TAX_RATE ?? 0.08),
-  adminPassword: process.env.ADMIN_PASSWORD ?? "letmein",
   clover: {
     merchantId: process.env.CLOVER_MERCHANT_ID ?? "",
     apiToken: process.env.CLOVER_API_TOKEN ?? "",

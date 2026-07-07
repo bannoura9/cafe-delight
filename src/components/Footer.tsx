@@ -22,17 +22,17 @@ export function Footer() {
         </div>
         <div>
           <div className="font-medium text-espresso">Explore</div>
-          <ul className="space-y-0.5">
-            <li><Link href="/menu" className="hover:text-crema-2">Menu</Link></li>
-            <li><Link href="/about" className="hover:text-crema-2">About</Link></li>
-            <li><Link href="/faq" className="hover:text-crema-2">FAQ</Link></li>
-            <li><Link href="/legal/terms" className="hover:text-crema-2">Terms</Link></li>
-            <li><Link href="/legal/privacy" className="hover:text-crema-2">Privacy</Link></li>
+          <ul>
+            <li><Link href="/menu" className="inline-block py-1.5 hover:text-crema-2">Menu</Link></li>
+            <li><Link href="/about" className="inline-block py-1.5 hover:text-crema-2">About</Link></li>
+            <li><Link href="/faq" className="inline-block py-1.5 hover:text-crema-2">FAQ</Link></li>
+            <li><Link href="/legal/terms" className="inline-block py-1.5 hover:text-crema-2">Terms</Link></li>
+            <li><Link href="/legal/privacy" className="inline-block py-1.5 hover:text-crema-2">Privacy</Link></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-espresso/10">
-        <div className="max-w-6xl mx-auto px-4 py-3 text-xs text-espresso/50">
+        <div className="max-w-6xl mx-auto px-4 py-3 text-xs text-espresso/70">
           © {new Date().getFullYear()} {config.businessName}. Payments by Clover.
         </div>
       </div>

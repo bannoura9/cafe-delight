@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: "Menu — Espresso, Boba, Matcha & More",
   description: `Full menu for ${config.businessName} in Parker, CO. Espresso, signature lattes, boba, matcha, gelato, italian sodas. Order online for pickup in ~${config.pickupEtaMinutes} minutes.`,
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cafedelightco.com"}/menu` },
+  openGraph: {
+    title: `Menu · ${config.businessName}`,
+    description: "Espresso, signature lattes, boba, matcha, gelato, and breakfast. Order online for pickup in Parker, CO.",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cafedelightco.com"}/menu`,
+  },
 };
 
 export default function MenuPage() {
@@ -26,7 +31,7 @@ export default function MenuPage() {
 
         <MenuFilters />
 
-        {CATEGORIES.map((cat) => (
+        {CATEGORIES.map((cat, catIndex) => (
           <section
             key={cat}
             id={cat.replace(/ /g, "-")}
@@ -35,8 +40,12 @@ export default function MenuPage() {
           >
             <h2 className="display text-2xl text-crema-2 mb-4">{cat}</h2>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {MENU.filter((m) => m.category === cat).map((item) => (
-                <MenuItemCard key={item.id} item={item} />
+              {MENU.filter((m) => m.category === cat).map((item, i) => (
+                <MenuItemCard
+                  key={item.id}
+                  item={item}
+                  imagePriority={catIndex === 0 && i < 3}
+                />
               ))}
             </div>
           </section>
