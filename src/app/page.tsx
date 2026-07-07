@@ -1,26 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { config } from "@/lib/config";
-import { isOpenNow, hoursLabel } from "@/lib/hours";
 import { HeroCartButton } from "@/components/HeroCartButton";
+import { HeroOpenBadge } from "@/components/HeroOpenBadge";
 import { OrderAgain } from "@/components/OrderAgain";
 import { FeaturedDrink } from "@/components/FeaturedDrink";
 import { JsonLd } from "@/components/JsonLd";
 import { localBusinessLd } from "@/lib/seo";
 
 export default function HomePage() {
-  const open = isOpenNow();
   return (
     <div>
       <JsonLd data={localBusinessLd()} />
       <section className="max-w-6xl mx-auto px-4 pt-16 pb-12 grid gap-10 md:grid-cols-2 md:items-center">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-crema-2 mb-4">
-            <span
-              className={`inline-block w-2 h-2 rounded-full ${open ? "bg-leaf" : "bg-espresso/40"}`}
-            />
-            {open ? "Open now" : "Closed"} · {hoursLabel()}
-          </div>
+          <HeroOpenBadge />
           <h1 className="display text-5xl md:text-6xl font-semibold leading-tight text-espresso">
             Order ahead.<br />
             <span className="text-crema-2">Skip the line.</span>
